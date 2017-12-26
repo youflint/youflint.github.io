@@ -87,17 +87,17 @@
 
 
 
-<meta name="description" content="websocket介绍 WebSocket协议是一种双向通信协议，它建立在TCP之上，同http一样通过TCP来传输数据，但是它和http最大的不同有两点：1.WebSocket是一种双向通信协议，在建立连接后，WebSocket服务器和客户端都能主动的向对方发送或接收数据，就像Socket一样，不同的是WebSocket是一种建立在Web基础上的一种简单模拟Socket的协议；2.WebSock">
+<meta name="description" content="###websocket介绍### WebSocket协议是一种双向通信协议，它建立在TCP之上，同http一样通过TCP来传输数据，但是它和http最大的不同有两点：1.WebSocket是一种双向通信协议，在建立连接后，WebSocket服务器和客户端都能主动的向对方发送或接收数据，就像Socket一样，不同的是WebSocket是一种建立在Web基础上的一种简单模拟Socket的协议；2.W">
 <meta name="keywords">
 <meta property="og:type" content="article">
 <meta property="og:title" content="日志系统websocket服务">
 <meta property="og:url" content="http://yoursite.com/2016/11/22/websocket/index.html">
 <meta property="og:site_name" content="amhere's blog">
-<meta property="og:description" content="websocket介绍 WebSocket协议是一种双向通信协议，它建立在TCP之上，同http一样通过TCP来传输数据，但是它和http最大的不同有两点：1.WebSocket是一种双向通信协议，在建立连接后，WebSocket服务器和客户端都能主动的向对方发送或接收数据，就像Socket一样，不同的是WebSocket是一种建立在Web基础上的一种简单模拟Socket的协议；2.WebSock">
-<meta property="og:updated_time" content="2017-12-26T07:29:41.000Z">
+<meta property="og:description" content="###websocket介绍### WebSocket协议是一种双向通信协议，它建立在TCP之上，同http一样通过TCP来传输数据，但是它和http最大的不同有两点：1.WebSocket是一种双向通信协议，在建立连接后，WebSocket服务器和客户端都能主动的向对方发送或接收数据，就像Socket一样，不同的是WebSocket是一种建立在Web基础上的一种简单模拟Socket的协议；2.W">
+<meta property="og:updated_time" content="2017-12-26T07:43:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="日志系统websocket服务">
-<meta name="twitter:description" content="websocket介绍 WebSocket协议是一种双向通信协议，它建立在TCP之上，同http一样通过TCP来传输数据，但是它和http最大的不同有两点：1.WebSocket是一种双向通信协议，在建立连接后，WebSocket服务器和客户端都能主动的向对方发送或接收数据，就像Socket一样，不同的是WebSocket是一种建立在Web基础上的一种简单模拟Socket的协议；2.WebSock">
+<meta name="twitter:description" content="###websocket介绍### WebSocket协议是一种双向通信协议，它建立在TCP之上，同http一样通过TCP来传输数据，但是它和http最大的不同有两点：1.WebSocket是一种双向通信协议，在建立连接后，WebSocket服务器和客户端都能主动的向对方发送或接收数据，就像Socket一样，不同的是WebSocket是一种建立在Web基础上的一种简单模拟Socket的协议；2.W">
 
 
 
@@ -322,11 +322,10 @@
       
 
       
-        <p><strong><font size="5">websocket介绍</font></strong></p>
+        <p>###websocket介绍###</p>
 <p>WebSocket协议是一种双向通信协议，它建立在TCP之上，同http一样通过TCP来传输数据，但是它和http最大的不同有两点：1.WebSocket是一种双向通信协议，在建立连接后，WebSocket服务器和客户端都能主动的向对方发送或接收数据，就像Socket一样，不同的是WebSocket是一种建立在Web基础上的一种简单模拟Socket的协议；2.WebSocket需要通过握手连接，类似于TCP它也需要客户端和服务器端进行握手连接，连接成功后才能相互通信。</p>
-<p><strong><font size="5">websocket的springboot实现</font></strong></p>
-<p>###创建一个maven工程###</p>
-<p>###pom中加入依赖###</p>
+<p>###websocket的springboot实现###</p>
+<p>创建一个maven工程，pom中加入依赖</p>
 <p>如果是运行在tomcat下，主要引入javaee-api，不过使用springboot的内置tomcat就不需要了</p>
 <pre><code>&lt;dependencies&gt;    
     &lt;dependency&gt;
@@ -426,10 +425,10 @@ public class MyWebSocket {
 }
 </code></pre><p>一个简单的demo，websocket一共有四种事件</p>
 <ul>
-<li>onopen     websocket建立连接完成</li>
-<li>onclose    websocket连接关闭</li>
-<li>onmessage  websocket接收到数据，发送数据调用socket.send方法</li>
-<li>onerror    websocket发生错误</li>
+<li>onopen websocket建立连接完成</li>
+<li>onclose websocket连接关闭</li>
+<li>onmessage websocket接收到数据，发送数据调用socket.send方法</li>
+<li>onerror websocket发生错误</li>
 </ul>
 <p>###websocket的客户端的实现###</p>
 <p>websocket两种实现方法，一种是sockjs，一种是HTML5，这里使用HTML5实现，创建一个index.html</p>
@@ -510,8 +509,7 @@ Welcome&lt;br/&gt;
 }
 </code></pre><p>###websocket的token验证###</p>
 <p>websocket的数据传输安全模式通过wss，客户端和服务端握手的时候采用https协议，这时的安全需要token验证</p>
-<pre><code>websocket = new WebSocket(&quot;wss://localhost:8080/websocket?token=***&quot;)
-</code></pre><p>用户登入平台的时候获取token，服务端拿到token去平台验证</p>
+<p>websocket = new WebSocket(“wss://localhost:8080/websocket?token=<em>*</em>“)<br>用户登入平台的时候获取token，服务端拿到token去平台验证</p>
 <pre><code> private static void tokenAuth(String token) {
  //发送 GET 请求
  String s=HttpPost.sendGet(&quot;http://&amp;&amp;&amp;&amp;&amp;&quot;, &quot;token&quot;);
@@ -562,34 +560,7 @@ Welcome&lt;br/&gt;
     }
     return result;
 }
-</code></pre><p>###websocket的接口设计###</p>
-<p>客户端不同的请求可以存放在message中，避免创建多个websokcet实例，服务端通过解析客户端发送的message字符串，返回不同的日志信息，日志的实时数据都存放在ContainerMetric类型中，有22种key</p>
-<ul>
-<li>cf_app_id</li>
-<li>cf_app_name</li>
-<li>cf_org_id</li>
-<li>cf_org_name</li>
-<li>cf_orgin</li>
-<li>cf_space_id</li>
-<li>cf_space_name</li>
-<li>cpu_percentage</li>
-<li>deployment</li>
-<li>disk_bytes</li>
-<li>dist_bytes_quota</li>
-<li>event_type</li>
-<li>index</li>
-<li>instance_index</li>
-<li>ip</li>
-<li>job</li>
-<li>level</li>
-<li>memory_bytes</li>
-<li>memory_bytes_quota</li>
-<li>msg</li>
-<li>orgin</li>
-<li>time</li>
-</ul>
-<p>客户端请求相关的数据，在message中发送time&amp;ip&amp;index这种形式，服务端监听message，返回日志信息</p>
-
+</code></pre>
       
     </div>
 
