@@ -94,7 +94,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/12/26/Cloudfoundry-Java-Buildpack源码分析/index.html">
 <meta property="og:site_name" content="amhere's blog">
 <meta property="og:description" content="Java-buildpack介绍   在CloudFoundry中，最后打成的那个tar.gz的包，称为droplet，任何一个DEA拿到这个droplet，解压然后start即可。那具体应该如何打包？打包过程应该是运行一系列的脚本吧，这个脚本在哪里？一般来讲，脚本文件为了备份和版本化需求我们一般会放到git或svn上，嗯，现在可以解释什么叫buildpack了：它是一坨脚本，一般是放到git上作">
-<meta property="og:updated_time" content="2017-12-26T07:29:02.000Z">
+<meta property="og:updated_time" content="2017-12-26T07:47:50.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Cloudfoundry Java-Buildpack源码分析">
 <meta name="twitter:description" content="Java-buildpack介绍   在CloudFoundry中，最后打成的那个tar.gz的包，称为droplet，任何一个DEA拿到这个droplet，解压然后start即可。那具体应该如何打包？打包过程应该是运行一系列的脚本吧，这个脚本在哪里？一般来讲，脚本文件为了备份和版本化需求我们一般会放到git或svn上，嗯，现在可以解释什么叫buildpack了：它是一坨脚本，一般是放到git上作">
@@ -326,9 +326,11 @@
 <p>  在CloudFoundry中，最后打成的那个tar.gz的包，称为droplet，任何一个DEA拿到这个droplet，解压然后start即可。那具体应该如何打包？打包过程应该是运行一系列的脚本吧，这个脚本在哪里？一般来讲，脚本文件为了备份和版本化需求我们一般会放到git或svn上，嗯，现在可以解释什么叫buildpack了：它是一坨脚本，一般是放到git上作为一个project的形态存在，这坨脚本的作用是把用户写好的程序（CloudFoundry中一般称为app）、及其依赖的环境、配置、启动脚本等打包成droplet，这个过程称之为stage。<br>Java-buildpack是用ruby写的，这里分析的是java-buildpack-offline-v-3.81</p>
 
 <p><strong><font size="5">Java-buildpack源码分析</font></strong></p>
-<p>###获取代码###<br>java-buildpack的源码在gitlab上获取：</p>
+<p><strong><font size="3">获取代码</font></strong></p>
+<p>java-buildpack的源码在gitlab上获取：</p>
 <pre><code>git clone https://github.com/cloudfoundry/java-buildpack    
-</code></pre><p>###目录结构###<br>java-buildpack的主要目录结构如下：</p>
+</code></pre><p><strong><font size="3">目录结构</font></strong></p>
+<p>java-buildpack的主要目录结构如下：</p>
 <pre><code>|---bin         
 |---config      
 |---lib         
@@ -339,7 +341,7 @@
 <li>detect</li>
 <li>release</li>
 </ul>
-<p>####detect源码分析####</p>
+<p><strong><font size="3">detect源码分析</font></strong></p>
 <pre><code>$stdout.sync = true  #设置标准输出
 $stderr.sync = true  #设置错误输出
 $LOAD_PATH.unshift File.expand_path(&apos;../../lib&apos;, __FILE__)  #加载lib下面的类库，$LOAD_PATH，功能就是java中的classpath
@@ -358,7 +360,7 @@ else
   str = components.join(&apos; &apos;)
   puts str.length &gt; 255 ? str.slice(0..251) + &apos;...&apos; : str
 end
-</code></pre><p>####compile源码分析####</p>
+</code></pre><p><strong><font size="3">compile源码分析</font></strong></p>
 <pre><code>$stdout.sync = true
 $stderr.sync = true
 $LOAD_PATH.unshift File.expand_path(&apos;../../lib&apos;, __FILE__)
@@ -370,7 +372,7 @@ build_dir = ARGV[0]
 JavaBuildpack::Buildpack.with_buildpack(build_dir, &apos;Compile failed with exception %s&apos;) do |buildpack|
   buildpack.compile  #调用buildpack类中的compile方法
 end
-</code></pre><p>####release源码分析####</p>
+</code></pre><p><strong><font size="3">release源码分析</font></strong></p>
 <pre><code>$stdout.sync = true
 $stderr.sync = true
 $LOAD_PATH.unshift File.expand_path(&apos;../../lib&apos;, __FILE__)
