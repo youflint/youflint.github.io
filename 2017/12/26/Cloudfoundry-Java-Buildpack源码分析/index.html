@@ -87,17 +87,17 @@
 
 
 
-<meta name="description" content="Cloudfoundry Java-Buildpack源码分析Java-buildpack介绍   在CloudFoundry中，最后打成的那个tar.gz的包，称为droplet，任何一个DEA拿到这个droplet，解压然后start即可。那具体应该如何打包？打包过程应该是运行一系列的脚本吧，这个脚本在哪里？一般来讲，脚本文件为了备份和版本化需求我们一般会放到git或svn上，嗯，现在可以解释">
+<meta name="description" content="Java-buildpack介绍   在CloudFoundry中，最后打成的那个tar.gz的包，称为droplet，任何一个DEA拿到这个droplet，解压然后start即可。那具体应该如何打包？打包过程应该是运行一系列的脚本吧，这个脚本在哪里？一般来讲，脚本文件为了备份和版本化需求我们一般会放到git或svn上，嗯，现在可以解释什么叫buildpack了：它是一坨脚本，一般是放到git上作">
 <meta name="keywords">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Cloudfoundry Java-Buildpack源码分析">
 <meta property="og:url" content="http://yoursite.com/2017/12/26/Cloudfoundry-Java-Buildpack源码分析/index.html">
 <meta property="og:site_name" content="amhere's blog">
-<meta property="og:description" content="Cloudfoundry Java-Buildpack源码分析Java-buildpack介绍   在CloudFoundry中，最后打成的那个tar.gz的包，称为droplet，任何一个DEA拿到这个droplet，解压然后start即可。那具体应该如何打包？打包过程应该是运行一系列的脚本吧，这个脚本在哪里？一般来讲，脚本文件为了备份和版本化需求我们一般会放到git或svn上，嗯，现在可以解释">
-<meta property="og:updated_time" content="2017-12-26T07:19:38.000Z">
+<meta property="og:description" content="Java-buildpack介绍   在CloudFoundry中，最后打成的那个tar.gz的包，称为droplet，任何一个DEA拿到这个droplet，解压然后start即可。那具体应该如何打包？打包过程应该是运行一系列的脚本吧，这个脚本在哪里？一般来讲，脚本文件为了备份和版本化需求我们一般会放到git或svn上，嗯，现在可以解释什么叫buildpack了：它是一坨脚本，一般是放到git上作">
+<meta property="og:updated_time" content="2017-12-26T07:29:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Cloudfoundry Java-Buildpack源码分析">
-<meta name="twitter:description" content="Cloudfoundry Java-Buildpack源码分析Java-buildpack介绍   在CloudFoundry中，最后打成的那个tar.gz的包，称为droplet，任何一个DEA拿到这个droplet，解压然后start即可。那具体应该如何打包？打包过程应该是运行一系列的脚本吧，这个脚本在哪里？一般来讲，脚本文件为了备份和版本化需求我们一般会放到git或svn上，嗯，现在可以解释">
+<meta name="twitter:description" content="Java-buildpack介绍   在CloudFoundry中，最后打成的那个tar.gz的包，称为droplet，任何一个DEA拿到这个droplet，解压然后start即可。那具体应该如何打包？打包过程应该是运行一系列的脚本吧，这个脚本在哪里？一般来讲，脚本文件为了备份和版本化需求我们一般会放到git或svn上，嗯，现在可以解释什么叫buildpack了：它是一坨脚本，一般是放到git上作">
 
 
 
@@ -322,7 +322,7 @@
       
 
       
-        <h2 id="Cloudfoundry-Java-Buildpack源码分析"><a href="#Cloudfoundry-Java-Buildpack源码分析" class="headerlink" title="Cloudfoundry Java-Buildpack源码分析"></a><h1 style="text-align:center">Cloudfoundry Java-Buildpack源码分析</h1></h2><p><strong><font size="5">Java-buildpack介绍</font></strong><br><br></p>
+        <p><strong><font size="5">Java-buildpack介绍</font></strong><br><br></p>
 <p>  在CloudFoundry中，最后打成的那个tar.gz的包，称为droplet，任何一个DEA拿到这个droplet，解压然后start即可。那具体应该如何打包？打包过程应该是运行一系列的脚本吧，这个脚本在哪里？一般来讲，脚本文件为了备份和版本化需求我们一般会放到git或svn上，嗯，现在可以解释什么叫buildpack了：它是一坨脚本，一般是放到git上作为一个project的形态存在，这坨脚本的作用是把用户写好的程序（CloudFoundry中一般称为app）、及其依赖的环境、配置、启动脚本等打包成droplet，这个过程称之为stage。<br>Java-buildpack是用ruby写的，这里分析的是java-buildpack-offline-v-3.81</p>
 
 <p><strong><font size="5">Java-buildpack源码分析</font></strong></p>
@@ -475,17 +475,8 @@ puts output  #输出返回值
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -529,22 +520,6 @@ puts output  #输出返回值
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Cloudfoundry-Java-Buildpack源码分析"><span class="nav-number">1.</span> <span class="nav-text">Cloudfoundry Java-Buildpack源码分析</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number"></span> <span class="nav-text">Cloudfoundry Java-Buildpack源码分析</span></a></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

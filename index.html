@@ -324,7 +324,7 @@
       
         
           
-            <h2 id="Cloudfoundry-Java-Buildpack源码分析"><a href="#Cloudfoundry-Java-Buildpack源码分析" class="headerlink" title="Cloudfoundry Java-Buildpack源码分析"></a><h1 style="text-align:center">Cloudfoundry Java-Buildpack源码分析</h1></h2><p><strong><font size="5">Java-buildpack介绍</font></strong><br><br></p>
+            <p><strong><font size="5">Java-buildpack介绍</font></strong><br><br></p>
 <p>  在CloudFoundry中，最后打成的那个tar.gz的包，称为droplet，任何一个DEA拿到这个droplet，解压然后start即可。那具体应该如何打包？打包过程应该是运行一系列的脚本吧，这个脚本在哪里？一般来讲，脚本文件为了备份和版本化需求我们一般会放到git或svn上，嗯，现在可以解释什么叫buildpack了：它是一坨脚本，一般是放到git上作为一个project的形态存在，这坨脚本的作用是把用户写好的程序（CloudFoundry中一般称为app）、及其依赖的环境、配置、启动脚本等打包成droplet，这个过程称之为stage。<br>Java-buildpack是用ruby写的，这里分析的是java-buildpack-offline-v-3.81</p>
 
 <p><strong><font size="5">Java-buildpack源码分析</font></strong></p>
@@ -506,7 +506,7 @@ puts output  #输出返回值
       
         
           
-            <h2 id="JS-Promise用法"><a href="#JS-Promise用法" class="headerlink" title="JS Promise用法"></a><h1 style="text-align:center">JS Promise用法</h1></h2><p><strong><font size="5">Promise概述</font></strong></p>
+            <p><strong><font size="5">Promise概述</font></strong></p>
 <p>promise对象用于异步计算，相比于回调函数，promise对象除了规定的方法都是不可用的，牺牲了一定自由度的同时，可以将复杂的异步处理模式化。</p>
 <p><strong><font size="3">句法</font></strong></p>
 <pre><code>Promise( /* executor */ function(resolve, reject) { ... } );
@@ -792,7 +792,7 @@ $scope.whatState = function(app) {
       
         
           
-            <h2 id="日志系统websocket服务"><a href="#日志系统websocket服务" class="headerlink" title="日志系统websocket服务"></a><h1 style="text-align:center">日志系统websocket服务</h1></h2><p><strong><font size="5">websocket介绍</font></strong></p>
+            <p><strong><font size="5">websocket介绍</font></strong></p>
 <p>WebSocket协议是一种双向通信协议，它建立在TCP之上，同http一样通过TCP来传输数据，但是它和http最大的不同有两点：1.WebSocket是一种双向通信协议，在建立连接后，WebSocket服务器和客户端都能主动的向对方发送或接收数据，就像Socket一样，不同的是WebSocket是一种建立在Web基础上的一种简单模拟Socket的协议；2.WebSocket需要通过握手连接，类似于TCP它也需要客户端和服务器端进行握手连接，连接成功后才能相互通信。</p>
 <p><strong><font size="5">websocket的springboot实现</font></strong></p>
 <p>###创建一个maven工程###</p>
