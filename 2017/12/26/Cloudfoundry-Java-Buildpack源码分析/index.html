@@ -1,15 +1,22 @@
-<!doctype html>
+<!DOCTYPE html>
 
 
 
   
 
 
-<html class="theme-next muse use-motion" lang="zh-Hans">
+<html class="theme-next pisces use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
 
 
 
@@ -68,19 +75,19 @@
 
 <link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
-
-
-
+  <meta name="keywords" content="CloudFoundry," />
 
 
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
 
 
 
@@ -88,13 +95,13 @@
 
 
 <meta name="description" content="Java-buildpack介绍   在CloudFoundry中，最后打成的那个tar.gz的包，称为droplet，任何一个DEA拿到这个droplet，解压然后start即可。那具体应该如何打包？打包过程应该是运行一系列的脚本吧，这个脚本在哪里？一般来讲，脚本文件为了备份和版本化需求我们一般会放到git或svn上，嗯，现在可以解释什么叫buildpack了：它是一坨脚本，一般是放到git上作">
-<meta name="keywords">
+<meta name="keywords" content="CloudFoundry">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Cloudfoundry Java-Buildpack源码分析">
 <meta property="og:url" content="http://yoursite.com/2017/12/26/Cloudfoundry-Java-Buildpack源码分析/index.html">
 <meta property="og:site_name" content="amhere's blog">
 <meta property="og:description" content="Java-buildpack介绍   在CloudFoundry中，最后打成的那个tar.gz的包，称为droplet，任何一个DEA拿到这个droplet，解压然后start即可。那具体应该如何打包？打包过程应该是运行一系列的脚本吧，这个脚本在哪里？一般来讲，脚本文件为了备份和版本化需求我们一般会放到git或svn上，嗯，现在可以解释什么叫buildpack了：它是一坨脚本，一般是放到git上作">
-<meta property="og:updated_time" content="2017-12-26T07:47:50.000Z">
+<meta property="og:updated_time" content="2017-12-27T07:40:42.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Cloudfoundry Java-Buildpack源码分析">
 <meta name="twitter:description" content="Java-buildpack介绍   在CloudFoundry中，最后打成的那个tar.gz的包，称为droplet，任何一个DEA拿到这个droplet，解压然后start即可。那具体应该如何打包？打包过程应该是运行一系列的脚本吧，这个脚本在哪里？一般来讲，脚本文件为了备份和版本化需求我们一般会放到git或svn上，嗯，现在可以解释什么叫buildpack了：它是一坨脚本，一般是放到git上作">
@@ -105,9 +112,10 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Muse',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
+    tabs: true,
     motion: true,
     duoshuo: {
       userId: '0',
@@ -131,11 +139,7 @@
 
 
 
-  <title> Cloudfoundry Java-Buildpack源码分析 | amhere's blog </title>
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
+  <title>Cloudfoundry Java-Buildpack源码分析 | amhere's blog</title>
   
 
 
@@ -150,6 +154,10 @@
 
 
 
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
@@ -203,7 +211,7 @@
       
         
         <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
+          <a href="/archives/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
@@ -213,7 +221,7 @@
       
         
         <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
+          <a href="/tags/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
@@ -249,7 +257,11 @@
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/26/Cloudfoundry-Java-Buildpack源码分析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -267,14 +279,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                Cloudfoundry Java-Buildpack源码分析
-              
-            
-          </h1>
+          <h1 class="post-title" itemprop="name headline">Cloudfoundry Java-Buildpack源码分析</h1>
         
 
         <div class="post-meta">
@@ -315,7 +320,9 @@
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -389,33 +396,27 @@ puts output  #输出返回值
 </code></pre>
       
     </div>
+    
+    
+    
 
-    <div>
-      
-        
+    
 
-      
-    </div>
+    
 
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
+    
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/CloudFoundry/" rel="tag"># CloudFoundry</a>
+          
+        </div>
+      
 
       
-        
+      
       
 
       
@@ -443,6 +444,10 @@ puts output  #输出返回值
       
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -476,6 +481,7 @@ puts output  #输出返回值
   </div>
 
   <aside id="sidebar" class="sidebar">
+    
     <div class="sidebar-inner">
 
       
@@ -496,8 +502,8 @@ puts output  #输出返回值
 
           
             <div class="site-state-item site-state-posts">
-              <a href="/archives">
-                <span class="site-state-item-count">4</span>
+              <a href="/archives/">
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -505,6 +511,15 @@ puts output  #输出返回值
 
           
 
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
           
 
         </nav>
@@ -558,7 +573,7 @@ puts output  #输出返回值
 <div class="theme-info">
   主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Muse
+    NexT.Pisces
   </a>
 </div>
 
@@ -601,6 +616,12 @@ puts output  #输出返回值
 
 
 
+
+
+
+
+
+
   
   <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
 
@@ -623,25 +644,32 @@ puts output  #输出返回值
   
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
-
-
-
-  
-  
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
 
 
 
   
+  
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
 
 
 
@@ -671,18 +699,16 @@ puts output  #输出返回值
 
 
 
-  
-
-
-
-
-
 
   
 
 
 
 
+
+  
+
+  
 
   
 
