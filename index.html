@@ -516,7 +516,93 @@
 </ul>
 <p><strong><font size="3">Pandas</font></strong></p>
 <p>pannel data analysis（面板数据分析）。pandas是基于numpy构建的，为时间序列分析提供了很好的支持。pandas中有两个主要的数据结构，一个是Series(相当于列向量)，另一个是DataFrame（矩阵）。</p>
-
+<p><strong>创建案例：</strong></p>
+<p>输入，创建series</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line">step_data = [<span class="number">3620</span>, <span class="number">7891</span>, <span class="number">9761</span>,</div><div class="line">            <span class="number">3907</span>, <span class="number">4338</span>, <span class="number">5373</span>]</div><div class="line">step_counts = pd.Series(step_data,</div><div class="line">name=<span class="string">'steps'</span>) </div><div class="line">print(step_counts)</div></pre></td></tr></table></figure>
+<p>输出：</p>
+<pre><code>0    3620
+1    7891
+2    9761
+3    3907
+4    4338
+5    5373
+Name: steps, dtype: int64
+</code></pre><p>添加时间索引</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">step_counts.index = pd.date_range(<span class="string">"20150329"</span>,</div><div class="line">                                  periods=<span class="number">6</span>)</div><div class="line">print(step_counts)</div></pre></td></tr></table></figure>
+<p>输出：</p>
+<pre><code>2015-03-29    3620
+2015-03-30    7891
+2015-03-31    9761
+2015-04-01    3907
+2015-04-02    4338
+2015-04-03    5373
+Freq: D, Name: steps, dtype: int64
+</code></pre><p>根据索引查询</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">print(step_counts[<span class="string">'2015-04-01  '</span>])</div></pre></td></tr></table></figure>
+<p>输出：</p>
+<pre><code>3907
+</code></pre><p>可以查询某月的，对时间序列很友好</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">print(step_counts[<span class="string">'2015-04'</span>])</div></pre></td></tr></table></figure>
+<p>输出</p>
+<pre><code>2015-04-01    3907
+2015-04-02    4338
+2015-04-03    5373
+Freq: D, Name: steps, dtype: int64
+</code></pre><p>查询类型</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">print(step_counts.dtype)</div></pre></td></tr></table></figure>
+<p>输出：</p>
+<pre><code>int64
+</code></pre><p>空的赋值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">step_counts[<span class="number">1</span>:<span class="number">3</span>] = np.NaN</div><div class="line">print(step_counts)</div></pre></td></tr></table></figure>
+<p>输出：</p>
+<pre><code>2015-03-29    3620.0
+2015-03-30       NaN
+2015-03-31       NaN
+2015-04-01    3907.0
+2015-04-02    4338.0
+2015-04-03    5373.0
+Freq: D, Name: steps, dtype: float64
+</code></pre><p>创建DataFrame,zip放回一个tuple列表</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">cycling_data = [<span class="number">10.7</span>, <span class="number">0</span>, <span class="keyword">None</span>, <span class="number">2.4</span>, <span class="number">15.3</span>, <span class="number">10.9</span>, <span class="number">0</span>, <span class="keyword">None</span>]</div><div class="line">joined_data = list(zip(step_data,</div><div class="line">                       cycling_data))</div><div class="line">print(joined_data)</div><div class="line">activity_df = pd.DataFrame(joined_data)</div><div class="line">print(activity_df)</div></pre></td></tr></table></figure>
+<p>输出：</p>
+<pre><code>[(3620, 10.7), (7891, 0), (9761, None), (3907, 2.4), (4338, 15.3), (5373, 10.9)]
+      0     1
+0  3620  10.7
+1  7891   0.0
+2  9761   NaN
+3  3907   2.4
+4  4338  15.3
+5  5373  10.9
+</code></pre><p>创建时间索引，和列名</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">active_df = pd.DataFrame(joined_data,index=pd.date_range(<span class="string">"20171229"</span>,periods=<span class="number">6</span>),columns=[<span class="string">'Walking'</span>,<span class="string">'Cycling'</span>])   </div><div class="line">print(active_df)</div></pre></td></tr></table></figure>
+<p>输出：</p>
+<pre><code>            Walking  Cycling
+2017-12-29     3620     10.7
+2017-12-30     7891      0.0
+2017-12-31     9761      NaN
+2018-01-01     3907      2.4
+2018-01-02     4338     15.3
+2018-01-03     5373     10.9
+</code></pre><p>loc是根据dataframe的具体标签选取列，iloc是根据标签所在的位置，从0开始计数。iloc[:,],”,”前面是行的索引，后面是列的索引</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">print(active_df.loc[<span class="string">'2017-12-31'</span>])</div></pre></td></tr></table></figure>
+<p>输出：</p>
+<pre><code>Walking    9761.0
+Cycling       NaN
+Name: 2017-12-31 00:00:00, dtype: float64
+</code></pre><p>－3表示取倒数第三行</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">print(active_df.iloc[<span class="number">-3</span>])</div></pre></td></tr></table></figure>
+<p>输出</p>
+<pre><code>Walking    3907.0
+Cycling       2.4
+Name: 2018-01-01 00:00:00, dtype: float64
+</code></pre><p>表示取［0，3）行，前闭后开，第一列</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">print(active_df.iloc[<span class="number">0</span>:<span class="number">3</span>,<span class="number">0</span>])</div></pre></td></tr></table></figure>
+<p>输出：</p>
+<pre><code>2017-12-29    3620
+2017-12-30    7891
+2017-12-31    9761
+Freq: D, Name: Walking, dtype: int64
+</code></pre>
           
         
       
