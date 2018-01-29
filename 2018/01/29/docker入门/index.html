@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="CloudFoundry," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -94,17 +94,20 @@
 
 
 
-<meta name="description" content="Java-buildpack介绍   在CloudFoundry中，最后打成的那个tar.gz的包，称为droplet，任何一个DEA拿到这个droplet，解压然后start即可。那具体应该如何打包？打包过程应该是运行一系列的脚本吧，这个脚本在哪里？一般来讲，脚本文件为了备份和版本化需求我们一般会放到git或svn上，嗯，现在可以解释什么叫buildpack了：它是一坨脚本，一般是放到git上作">
-<meta name="keywords" content="CloudFoundry">
+<meta name="description" content="首先去官网下载mac的docker安装包：下载地址：https://download.docker.com/mac/stable/Docker.dmg 安装，运行： docker info 查看docker的基础信息，这些可以在preferences中进行重新配置 运行一个tank小应用在docker中 docker pull index.tenxcloud.com/tenxcloud/tomca">
+<meta name="keywords">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Cloudfoundry Java-Buildpack源码分析">
-<meta property="og:url" content="http://yoursite.com/2017/12/26/Cloudfoundry-Java-Buildpack源码分析/index.html">
+<meta property="og:title" content="docker入门">
+<meta property="og:url" content="http://yoursite.com/2018/01/29/docker入门/index.html">
 <meta property="og:site_name" content="amhere's blog">
-<meta property="og:description" content="Java-buildpack介绍   在CloudFoundry中，最后打成的那个tar.gz的包，称为droplet，任何一个DEA拿到这个droplet，解压然后start即可。那具体应该如何打包？打包过程应该是运行一系列的脚本吧，这个脚本在哪里？一般来讲，脚本文件为了备份和版本化需求我们一般会放到git或svn上，嗯，现在可以解释什么叫buildpack了：它是一坨脚本，一般是放到git上作">
-<meta property="og:updated_time" content="2017-12-27T07:40:42.000Z">
+<meta property="og:description" content="首先去官网下载mac的docker安装包：下载地址：https://download.docker.com/mac/stable/Docker.dmg 安装，运行： docker info 查看docker的基础信息，这些可以在preferences中进行重新配置 运行一个tank小应用在docker中 docker pull index.tenxcloud.com/tenxcloud/tomca">
+<meta property="og:image" content="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/docker1.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/docker2.jpeg">
+<meta property="og:updated_time" content="2018-01-29T09:48:40.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Cloudfoundry Java-Buildpack源码分析">
-<meta name="twitter:description" content="Java-buildpack介绍   在CloudFoundry中，最后打成的那个tar.gz的包，称为droplet，任何一个DEA拿到这个droplet，解压然后start即可。那具体应该如何打包？打包过程应该是运行一系列的脚本吧，这个脚本在哪里？一般来讲，脚本文件为了备份和版本化需求我们一般会放到git或svn上，嗯，现在可以解释什么叫buildpack了：它是一坨脚本，一般是放到git上作">
+<meta name="twitter:title" content="docker入门">
+<meta name="twitter:description" content="首先去官网下载mac的docker安装包：下载地址：https://download.docker.com/mac/stable/Docker.dmg 安装，运行： docker info 查看docker的基础信息，这些可以在preferences中进行重新配置 运行一个tank小应用在docker中 docker pull index.tenxcloud.com/tenxcloud/tomca">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/docker1.jpeg">
 
 
 
@@ -133,13 +136,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/12/26/Cloudfoundry-Java-Buildpack源码分析/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/01/29/docker入门/"/>
 
 
 
 
 
-  <title>Cloudfoundry Java-Buildpack源码分析 | amhere's blog</title>
+  <title>docker入门 | amhere's blog</title>
   
 
 
@@ -262,7 +265,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/26/Cloudfoundry-Java-Buildpack源码分析/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/29/docker入门/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="amhere">
@@ -279,7 +282,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Cloudfoundry Java-Buildpack源码分析</h1>
+          <h1 class="post-title" itemprop="name headline">docker入门</h1>
         
 
         <div class="post-meta">
@@ -291,8 +294,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-26T15:18:42+08:00">
-                2017-12-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-29T16:08:40+08:00">
+                2018-01-29
               </time>
             
 
@@ -310,9 +313,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/12/26/Cloudfoundry-Java-Buildpack源码分析/#comments" itemprop="discussionUrl">
+                <a href="/2018/01/29/docker入门/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/12/26/Cloudfoundry-Java-Buildpack源码分析/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/01/29/docker入门/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -340,70 +343,29 @@
       
 
       
-        <p><strong><font size="5">Java-buildpack介绍</font></strong><br><br></p>
-<p>  在CloudFoundry中，最后打成的那个tar.gz的包，称为droplet，任何一个DEA拿到这个droplet，解压然后start即可。那具体应该如何打包？打包过程应该是运行一系列的脚本吧，这个脚本在哪里？一般来讲，脚本文件为了备份和版本化需求我们一般会放到git或svn上，嗯，现在可以解释什么叫buildpack了：它是一坨脚本，一般是放到git上作为一个project的形态存在，这坨脚本的作用是把用户写好的程序（CloudFoundry中一般称为app）、及其依赖的环境、配置、启动脚本等打包成droplet，这个过程称之为stage。<br>Java-buildpack是用ruby写的，这里分析的是java-buildpack-offline-v-3.81</p>
-
-<p><strong><font size="5">Java-buildpack源码分析</font></strong></p>
-<p><strong><font size="3">获取代码</font></strong></p>
-<p>java-buildpack的源码在gitlab上获取：</p>
-<pre><code>git clone https://github.com/cloudfoundry/java-buildpack    
-</code></pre><p><strong><font size="3">目录结构</font></strong></p>
-<p>java-buildpack的主要目录结构如下：</p>
-<pre><code>|---bin         
-|---config      
-|---lib         
-|---resource
-</code></pre><p>其中bin下面三个部分：</p>
-<ul>
-<li>compile</li>
-<li>detect</li>
-<li>release</li>
-</ul>
-<p><strong><font size="3">detect源码分析</font></strong></p>
-<pre><code>$stdout.sync = true  #设置标准输出
-$stderr.sync = true  #设置错误输出
-$LOAD_PATH.unshift File.expand_path(&apos;../../lib&apos;, __FILE__)  #加载lib下面的类库，$LOAD_PATH，功能就是java中的classpath
-
-require &apos;java_buildpack/buildpack&apos;  #require相当于java中的import
-
-build_dir = ARGV[0]  #全局数组ARGV，接受命令行参数
-
-components = JavaBuildpack::Buildpack.with_buildpack(build_dir, &apos;Detect failed with exception %s&apos;) do |buildpack|  
-  buildpack.detect  #JavaBuildpack模块Buildpack类with_buildpack方法下执行buildpack的回调函数
-end.compact  #删除nil元素
-
-if components.empty?
-  abort  #终止进程
-else
-  str = components.join(&apos; &apos;)
-  puts str.length &gt; 255 ? str.slice(0..251) + &apos;...&apos; : str
-end
-</code></pre><p><strong><font size="3">compile源码分析</font></strong></p>
-<pre><code>$stdout.sync = true
-$stderr.sync = true
-$LOAD_PATH.unshift File.expand_path(&apos;../../lib&apos;, __FILE__)
-
-require &apos;java_buildpack/buildpack&apos;
-
-build_dir = ARGV[0]
-
-JavaBuildpack::Buildpack.with_buildpack(build_dir, &apos;Compile failed with exception %s&apos;) do |buildpack|
-  buildpack.compile  #调用buildpack类中的compile方法
-end
-</code></pre><p><strong><font size="3">release源码分析</font></strong></p>
-<pre><code>$stdout.sync = true
-$stderr.sync = true
-$LOAD_PATH.unshift File.expand_path(&apos;../../lib&apos;, __FILE__)
-
-require &apos;java_buildpack/buildpack&apos;
-
-build_dir = ARGV[0]
-
-output = JavaBuildpack::Buildpack.with_buildpack(build_dir, &apos;Release failed with exception %s&apos;) do |buildpack|
-  buildpack.release
-end
-
-puts output  #输出返回值                                           
+        <p>首先去官网下载mac的docker安装包：下载地址：<a href="https://download.docker.com/mac/stable/Docker.dmg" target="_blank" rel="external">https://download.docker.com/mac/stable/Docker.dmg</a></p>
+<p>安装，运行：</p>
+<pre><code>docker info
+</code></pre><p>查看docker的基础信息，这些可以在preferences中进行重新配置</p>
+<p>运行一个tank小应用在docker中</p>
+<pre><code>docker pull index.tenxcloud.com/tenxcloud/tomcat
+</code></pre><p>这里使用的是tenxcloud的仓库，也可以使用docker hub，这里面mac有个小坑，如果使用官方hub，需要登入docker，不过需要使用账号而不是邮箱登入</p>
+<p>运行</p>
+<pre><code>docker container ls
+</code></pre><p>发现没有container，说明这个时候只是拉了一个镜像而已，运行：</p>
+<pre><code>docker tag index.tenxcloud.com/tenxcloud/tomcat tomcat-1
+</code></pre><p>给这个镜像起个tomcat－1的名字，启动这个镜像</p>
+<pre><code>docker run -p 5000:8080 --name container1 tomcat-1
+</code></pre><p>启动这个镜像，在container1中运行，docker中的8080端口映射到宿主机的5000端口</p>
+<p><img src="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/docker1.jpeg" alt=""></p>
+<p>把一个tank应用放到container1中运行下</p>
+<pre><code>docker exec -it container1 /bin/bash
+</code></pre><p>查看container1的容器路径结构，需要把应用放到tomcat/webapps下面</p>
+<pre><code>docker cp tank.war container1:tomcat/webapps
+</code></pre><p>docker会自动重启，访问 localhost:5000/tank 就可以访问到应用了</p>
+<p><img src="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/docker2.jpeg" alt=""></p>
+<p>关闭容器</p>
+<pre><code>docker stop container1
 </code></pre>
       
     </div>
@@ -419,12 +381,6 @@ puts output  #输出返回值
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/CloudFoundry/" rel="tag"># CloudFoundry</a>
-          
-        </div>
-      
 
       
       
@@ -434,18 +390,14 @@ puts output  #输出返回值
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/26/区域链入门/" rel="next" title="区域链入门">
-                <i class="fa fa-chevron-left"></i> 区域链入门
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/12/06/JS Promise用法/" rel="prev" title="JS Promise用法">
-                JS Promise用法 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/01/02/glusterfs分布式文件系统/" rel="prev" title="glusterfs分布式文件系统">
+                glusterfs分布式文件系统 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -703,9 +655,9 @@ puts output  #输出返回值
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2017/12/26/Cloudfoundry-Java-Buildpack源码分析/';
-          this.page.identifier = '2017/12/26/Cloudfoundry-Java-Buildpack源码分析/';
-          this.page.title = 'Cloudfoundry Java-Buildpack源码分析';
+          this.page.url = 'http://yoursite.com/2018/01/29/docker入门/';
+          this.page.identifier = '2018/01/29/docker入门/';
+          this.page.title = 'docker入门';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://amhere.disqus.com/embed.js';
