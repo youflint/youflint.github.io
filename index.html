@@ -259,6 +259,307 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/31/oracle-jre的javabuildpack制作/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="amhere">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="amhere's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/31/oracle-jre的javabuildpack制作/" itemprop="url">oracle jre的javabuildpack制作</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-31T09:28:35+08:00">
+                2018-01-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/01/31/oracle-jre的javabuildpack制作/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/01/31/oracle-jre的javabuildpack制作/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="https://github.com/cloudfoundry/java-buildpack" target="_blank" rel="external">Javabuildpack</a>的默认运行时环境是openjdk，而平时工作经常使用的是oracle jre，这让一些应用经常会出现莫名其妙的问题。所以制作oracle版本的buildpack</p>
+<p>在<a href="https://github.com/cloudfoundry/java-buildpack/blob/master/docs/jre-oracle_jre.md" target="_blank" rel="external">官方文档</a>中显示</p>
+<p>To use Oracle JRE instead of OpenJDK without forking java-buildpack, set environment variable:</p>
+<p>cf set-env <app_name> JBP_CONFIG_COMPONENTS ‘{ jres: [ “JavaBuildpack::Jre::OracleJRE” ] }’ cf set-env <app_name> JBP_CONFIG_ORACLE_JRE ‘{ jre: { repository_root: “<internal_repository_uri>“ } }’</internal_repository_uri></app_name></app_name></p>
+<p>这个不是离线版本的buildpack，不过可以指定repo中的oracle jre，那么肯定也可以通过编译的方式制作offline版本的buildpack，思路是这样的，先把oracle jre下载下来，因为oracle不能作为repo被指定，然后上传到文件服务器或者本地搭建文件服务器</p>
+<p>首先在<a href="http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html" target="_blank" rel="external">oracle官网</a>下载对应的oracle版本，自身服务器是ubuntu14.04,所以使用了jre1.8.0_161 x64位的版本，下载到本地</p>
+<p>创建oracle-buildpack文件夹，拷贝jre到文件夹中</p>
+<p>配置nginx，搭建本地文件服务器</p>
+<pre><code>server{
+    listen    5550;
+    location ~* \.(html|css|js|png|jpg|gif|ico|jar|war|tar|gz|yml)$ {
+        root /Users/ssy/workspace/oracle-buildpack;
+    }
+}
+</code></pre><p>在同级目录下创建yml文件</p>
+<pre><code>vim index.yml 
+</code></pre><p>写入</p>
+<pre><code>1.8.0_161: http://localhost:5550/jre-8u161-linux-x64.tar.gz
+</code></pre><p>1.8.0_161是你下载jre的版本号，后面的地址是文件服务器地址</p>
+<p>注意按照yml的格式书写，冒号后面一个空格</p>
+<p>接下来下载buildpack源码</p>
+<pre><code>git clone https://github.com/cloudfoundry/java-buildpack.git
+git checkout v3.1
+</code></pre><p>修改config/oracle_jre.yml 文件</p>
+<pre><code>jre:
+  version: 1.8.0_161
+  repository_root: http://localhost:5550/
+</code></pre><p>修改config/components.yml文件</p>
+<pre><code>#  - &quot;JavaBuildpack::Jre::OpenJdkJRE&quot;
+- &quot;JavaBuildpack::Jre::OracleJRE&quot;
+</code></pre><p>编译buildpack</p>
+<pre><code>export BUNDLE_PATH=&quot;./vendor&quot;
+bundle install
+bundle exec rake clean package OFFLINE=true PINNED=true
+</code></pre><p>在buildpack文件夹下面打包好的buildpack</p>
+<p>tips：cloudfoundry不知道为什么，一个offline版本中openjdk支持的有mac版本、linux14.04、linux16.04等等很多版本却没有oracle版本，oracle版本的buildpack会和iopenjdk版本的有差异，比如killjvm等，这些在buildpack的使用中满满再踩坑</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/30/docker入门-二/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="amhere">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="amhere's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/30/docker入门-二/" itemprop="url">docker入门(二)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-30T15:04:41+08:00">
+                2018-01-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/01/30/docker入门-二/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/01/30/docker入门-二/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>新版本的docker17.12.0以上(仅限mac edge版本)，内含有kubernutes，如果本地想使用kubernutes，通过下载最新的测试版本docker，就可以不用minikube去安装kubernutes了</p>
+<p><img src="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/docker21.jpeg" alt=""></p>
+<p>不过从stable版本更新到edge版本注意，stable版本本地所有的image都会被清空！！！</p>
+<p><img src="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/docker22.jpeg" alt=""></p>
+<p>这个时候发现我的kubernutes怎么一直处于starting状态，开始以为是网络问题，打开vpn，发现还是run不起来，于是去minikube看issue，发现需要64G内存的空间，恍然大悟，虽然docker客户端版本安装kubernutes没有说是开源的minikube，不过原理应该差不多，开始清理电脑空间。。。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/29/docker入门/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -364,6 +665,22 @@
 <p><img src="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/docker2.jpeg" alt=""></p>
 <p>关闭容器</p>
 <pre><code>docker stop container1
+</code></pre><p>利用容器创建镜像</p>
+<pre><code>docker commit -m &quot;tank应用&quot; -a &quot;youflint&quot; 0416d433fb80 youflint/basehub
+</code></pre><p><img src="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/docker3.jpeg" alt=""></p>
+<p>这回在看本地的镜像，发现就会有刚刚创建的，然后把镜像上传到docker hub</p>
+<p>所以的镜像存储在/Users/ssy/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux 这个位置里</p>
+<pre><code>docker run=docker create+docker start
+</code></pre><p>关于镜像：<br>只读的，无状态的，一个镜像永远不可改变？</p>
+<p>kubernetes如何启动docker容器?</p>
+<p>docker image的只读模型和分层模型不了解</p>
+<p>kubernutes本身解决了docker的一下几个缺点，而这几点是我应该去思考的</p>
+<pre><code>容器与容器之间如何发现与通信？
+如何决定在哪运行以及运行多少个容器？
+如何获取容器运行的日志与运行状态信息？
+如何部署新的镜像？
+容器崩溃时都发生了什么？
+如何只将特定的一部分容器暴露在公网或者内网环境下？
 </code></pre>
           
         
@@ -1999,7 +2316,7 @@ Welcome&lt;br/&gt;
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
