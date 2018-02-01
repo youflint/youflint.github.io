@@ -94,17 +94,12 @@
 
 
 
-<meta name="description" content="websocket介绍 WebSocket协议是一种双向通信协议，它建立在TCP之上，同http一样通过TCP来传输数据，但是它和http最大的不同有两点：1.WebSocket是一种双向通信协议，在建立连接后，WebSocket服务器和客户端都能主动的向对方发送或接收数据，就像Socket一样，不同的是WebSocket是一种建立在Web基础上的一种简单模拟Socket的协议；2.WebSock">
-<meta name="keywords">
-<meta property="og:type" content="article">
-<meta property="og:title" content="日志系统websocket服务">
-<meta property="og:url" content="http://yoursite.com/2016/11/22/websocket/index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="amhere's blog">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
 <meta property="og:site_name" content="amhere's blog">
-<meta property="og:description" content="websocket介绍 WebSocket协议是一种双向通信协议，它建立在TCP之上，同http一样通过TCP来传输数据，但是它和http最大的不同有两点：1.WebSocket是一种双向通信协议，在建立连接后，WebSocket服务器和客户端都能主动的向对方发送或接收数据，就像Socket一样，不同的是WebSocket是一种建立在Web基础上的一种简单模拟Socket的协议；2.WebSock">
-<meta property="og:updated_time" content="2017-12-26T07:51:17.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="日志系统websocket服务">
-<meta name="twitter:description" content="websocket介绍 WebSocket协议是一种双向通信协议，它建立在TCP之上，同http一样通过TCP来传输数据，但是它和http最大的不同有两点：1.WebSocket是一种双向通信协议，在建立连接后，WebSocket服务器和客户端都能主动的向对方发送或接收数据，就像Socket一样，不同的是WebSocket是一种建立在Web基础上的一种简单模拟Socket的协议；2.WebSock">
+<meta name="twitter:title" content="amhere's blog">
 
 
 
@@ -133,13 +128,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/11/22/websocket/"/>
+  <link rel="canonical" href="http://yoursite.com/page/2/"/>
 
 
 
 
 
-  <title>日志系统websocket服务 | amhere's blog</title>
+  <title>amhere's blog</title>
   
 
 
@@ -164,7 +159,9 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left 
+   page-home 
+ ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -247,9 +244,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-
-  <div id="posts" class="posts-expand">
+  <section id="posts" class="posts-expand">
     
+      
 
   
 
@@ -279,7 +276,9 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">日志系统websocket服务</h1>
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/11/22/websocket/" itemprop="url">日志系统websocket服务</a></h1>
         
 
         <div class="post-meta">
@@ -340,7 +339,9 @@
       
 
       
-        <p><strong><font size="5">websocket介绍</font></strong></p>
+        
+          
+            <p><strong><font size="5">websocket介绍</font></strong></p>
 <p>WebSocket协议是一种双向通信协议，它建立在TCP之上，同http一样通过TCP来传输数据，但是它和http最大的不同有两点：1.WebSocket是一种双向通信协议，在建立连接后，WebSocket服务器和客户端都能主动的向对方发送或接收数据，就像Socket一样，不同的是WebSocket是一种建立在Web基础上的一种简单模拟Socket的协议；2.WebSocket需要通过握手连接，类似于TCP它也需要客户端和服务器端进行握手连接，连接成功后才能相互通信。</p>
 <p><strong><font size="5">websocket的springboot实现</font></strong></p>
 <p>创建一个maven工程，pom中加入依赖</p>
@@ -579,6 +580,8 @@ Welcome&lt;br/&gt;
     return result;
 }
 </code></pre>
+          
+        
       
     </div>
     
@@ -595,28 +598,12 @@ Welcome&lt;br/&gt;
       
 
       
-      
+
       
 
       
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2016/12/06/JS Promise用法/" rel="next" title="JS Promise用法">
-                <i class="fa fa-chevron-left"></i> JS Promise用法
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-          </div>
-        </div>
       
-
-      
+        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -626,11 +613,14 @@ Welcome&lt;br/&gt;
   </article>
 
 
+    
+  </section>
 
-    <div class="post-spread">
-      
-    </div>
-  </div>
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
+
 
 
           </div>
@@ -638,17 +628,6 @@ Welcome&lt;br/&gt;
 
 
           
-  <div class="comments" id="comments">
-    
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
-        </noscript>
-      </div>
-    
-  </div>
-
 
         </div>
         
@@ -843,10 +822,10 @@ Welcome&lt;br/&gt;
 
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
 
-
+  
 
   
 
@@ -864,18 +843,6 @@ Welcome&lt;br/&gt;
       <script id="dsq-count-scr" src="https://amhere.disqus.com/count.js" async></script>
     
 
-    
-      <script type="text/javascript">
-        var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2016/11/22/websocket/';
-          this.page.identifier = '2016/11/22/websocket/';
-          this.page.title = '日志系统websocket服务';
-        };
-        var d = document, s = d.createElement('script');
-        s.src = 'https://amhere.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', '' + +new Date());
-        (d.head || d.body).appendChild(s);
-      </script>
     
 
   
