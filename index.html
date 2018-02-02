@@ -259,6 +259,144 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/02/mac使用tips/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="amhere">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="amhere's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/02/mac使用tips/" itemprop="url">mac使用tips</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-02T17:07:34+08:00">
+                2018-02-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/02/02/mac使用tips/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/02/02/mac使用tips/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="iterm终端设置代理"><a href="#iterm终端设置代理" class="headerlink" title="iterm终端设置代理"></a>iterm终端设置代理</h1><p>shodowsock代理翻墙，想使用在iterm上面</p>
+<pre><code>vi ~/.zshrc
+</code></pre><p>最后添加两行</p>
+<pre><code>export http_proxy=socks5://127.0.0.1:1080
+export https_proxy=$http_proxy
+</code></pre><p>运行</p>
+<pre><code>source ~/.zshrc
+</code></pre><p>然后在iterm中下载，网速也是嗖嗖的啦～</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/31/javabuildpack改造/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1755,302 +1893,6 @@ puts output  #输出返回值
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/06/JS Promise用法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="amhere">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="amhere's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/12/06/JS Promise用法/" itemprop="url">JS Promise用法</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-06T10:51:11+08:00">
-                2016-12-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2016/12/06/JS Promise用法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2016/12/06/JS Promise用法/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong><font size="5">Promise概述</font></strong></p>
-<p>promise对象用于异步计算，相比于回调函数，promise对象除了规定的方法都是不可用的，牺牲了一定自由度的同时，可以将复杂的异步处理模式化。</p>
-<p><strong><font size="3">句法</font></strong></p>
-<pre><code>Promise( /* executor */ function(resolve, reject) { ... } );
-</code></pre><p>new一个Promise构造器进行实例化，返回一个promise对象：</p>
-<pre><code>var promise = new Promise(function(resolve, reject) {
-    // 异步处理
-    // 处理结束后、调用resolve 或 reject
-});
-</code></pre><p><strong><font size="3">Promise 状态</font></strong></p>
-<p>一个promise实例有一下几个状态（默认是Promises/A+的描述状态）：</p>
-<ul>
-<li>pending:初始化阶段，没有fulfilled或者是rejected</li>
-<li>fulfilled:操作成功完成（promise resolve）</li>
-<li>rejected：操作失败（promise reject）</li>
-</ul>
-<p>如果promise处于pending状态，处理promise的处理模块（handler）就会处于排队状态pending状态可以变成fulfilled或者rejected状态，不过fulfilled状态和rejected状态是不可相互转换的。promise从pending状态到fulfilled或者rejected状态，.then处理只会被调用一次，比如：</p>
-<pre><code>var promise = new Promise(function(resolve,reject){
-var n = 6
-if(n&lt;3)
-resolve(console.log(&apos;yes&apos;)); //成功了调用回调函数
-else
-reject(new Error(console.log(&apos;this is an error&apos;))); //失败调用reject并抛出异常
-})
-
-var promise = new Promise(function(resolve,reject){
-    var i = 2;
-    if(i&lt;3)
-    resolve(setTimeout(&quot;alert(&apos;hello&apos;)&quot;,5000));
-    else
-    reject(new Error(console.log(&apos;no&apos;)));
-})
-promise.then(console.log(&apos;ok&apos;));／／这个片段不理解啦，怎么先执行的then，再执行的resolve回调函数呀
-</code></pre><p><strong><font size="3">Promise 链</font></strong></p>
-<p>Promise.prototype.then()和Promise.prototype.then()方法返回promise对象，就成为promise链，如图：</p>
-<p><img src="https://mdn.mozillademos.org/files/8633/promises.png" alt="chains"></p>
-<p><strong><font size="3">方法</font></strong></p>
-<ul>
-<li>Promise.all()</li>
-</ul>
-<p>返回promise在迭代声明中是fulfilled还是reject，如果是fulfill，就返回一个数组，值是按照在迭代器中的顺序成功了的promises。如果返回不成功（reject）的promise，返回迭代器中第一个失败对象的原因。这个方法可以使用在有多个promise的情况下。</p>
-<ul>
-<li>Promise.race()</li>
-</ul>
-<p>如有有一个迭代中的promise被fulfilled或者rejected，这个方法立即返回处理值</p>
-<ul>
-<li>Promise.reject()</li>
-</ul>
-<p>返回被reject的原因</p>
-<ul>
-<li>Promise.resolve()</li>
-</ul>
-<p>返回处理成功的promise对象</p>
-<p><strong><font size="3">例子</font></strong></p>
-<pre><code>&apos;use strict&apos;;
-var promiseCount = 0;
-
-function testPromise() {
-    var thisPromiseCount = ++promiseCount;
-
-    var log = document.getElementById(&apos;log&apos;);
-    log.insertAdjacentHTML(&apos;beforeend&apos;, thisPromiseCount +
-        &apos;) Started (&lt;small&gt;Sync code started&lt;/small&gt;)&lt;br/&gt;&apos;);
-
-    // We make a new promise: we promise a numeric count of this promise, starting from 1 (after waiting 3s)
-    var p1 = new Promise(
-        // The resolver function is called with the ability to resolve or
-        // reject the promise
-        function(resolve, reject) {
-            log.insertAdjacentHTML(&apos;beforeend&apos;, thisPromiseCount +
-                &apos;) Promise started (&lt;small&gt;Async code started&lt;/small&gt;)&lt;br/&gt;&apos;);
-            // This is only an example to create asynchronism
-            window.setTimeout(
-                function() {
-                    // We fulfill the promise !
-                    resolve(thisPromiseCount);
-                }, Math.random() * 2000 + 1000);
-        }
-    );
-
-    // We define what to do when the promise is resolved/fulfilled with the then() call,
-    // and the catch() method defines what to do if the promise is rejected.
-    p1.then(
-        // Log the fulfillment value
-        function(val) {
-            log.insertAdjacentHTML(&apos;beforeend&apos;, val +
-                &apos;) Promise fulfilled (&lt;small&gt;Async code terminated&lt;/small&gt;)&lt;br/&gt;&apos;);
-        })
-    .catch(
-        // Log the rejection reason
-        function(reason) {
-            console.log(&apos;Handle rejected promise (&apos;+reason+&apos;) here.&apos;);
-        });
-
-    log.insertAdjacentHTML(&apos;beforeend&apos;, thisPromiseCount +
-        &apos;) Promise made (&lt;small&gt;Sync code terminated&lt;/small&gt;)&lt;br/&gt;&apos;);
-}
-</code></pre><p><strong><font size="3">浏览器兼容</font></strong></p>
-<table>
-<thead>
-<tr>
-<th>Feature</th>
-<th>Chrome</th>
-<th>Edge</th>
-<th>Firefox</th>
-<th>InternetExplorer</th>
-<th>Opera</th>
-<th>Safari</th>
-<th>Servo</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Promise</td>
-<td>32.0</td>
-<td>(Yes)</td>
-<td>29.0</td>
-<td>No support</td>
-<td>19</td>
-<td>7.1</td>
-<td>No support</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p><strong><font size="5">项目中的使用</font></strong></p>
-<p>项目中使用Angular，链式操作异步请求也是使用的promise（$q）<br>代码片段：</p>
-<pre><code>applicationService.getApplications().then(function(resp){
-        var data = resp.data.resources;
-        var promises = [];
-        $scope.total = resp.data.total_results;
-        angular.forEach(data,function(app,i) {
-            promises.push($scope.whatState(app));
-        })
-        $q.all(promises).then(function(){
-            $scope.fillDatenation($scope.nrOfStartedApps,$scope.nrOfStoppedApps,$scope.nrOfAbnormal);
-        })
-    })
-
-$scope.whatState = function(app) {
-        var defer = $q.defer();
-        if (app.entity.state === &apos;STOPPED&apos;) {
-            $scope.nrOfStoppedApps++;
-            defer.resolve();
-        } else {
-                applicationService.getInstanceInfo(app.metadata.guid).then(function (response) {
-                var data = response.data;
-                var n = 0;
-                angular.forEach(data, function (_data) {
-                    if (_data.state ==&quot;RUNNING&quot;) {
-                        n++;
-                    }
-                })
-                if (n &gt; 0) {
-                    $scope.nrOfStartedApps++;
-                } else {
-                    $scope.nrOfAbnormal++;
-                }
-                defer.resolve();
-            })
-        }
-        return defer.promise;
-    }
-</code></pre><p><strong><font size="3">本文参考</font></strong></p>
-<p>MDN ：<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise" target="_blank" rel="external">https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise</a></p>
-<p>JS Promise迷你书：<a href="http://www.kancloud.cn/kancloud/promises-book/44251" target="_blank" rel="external">http://www.kancloud.cn/kancloud/promises-book/44251</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2101,7 +1943,7 @@ $scope.whatState = function(app) {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2114,7 +1956,7 @@ $scope.whatState = function(app) {
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
