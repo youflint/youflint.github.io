@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="分布式," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -94,14 +94,17 @@
 
 
 
-<meta name="keywords" content="分布式">
+<meta name="description" content="服务器：ubuntu14.04 其他组件版本：  apache : 2 php : 5 zabbix : 2.2.2  sudo apt-get install apache2        sudo apt-get install php5    sudo apt-get install libapache2-mod-php5    sudo /etc/init.d/apache2 restar">
+<meta name="keywords">
 <meta property="og:type" content="article">
-<meta property="og:title" content="glusterfs分布式文件系统">
-<meta property="og:url" content="http://yoursite.com/2018/01/02/glusterfs分布式文件系统/index.html">
+<meta property="og:title" content="监控之zabbix安装">
+<meta property="og:url" content="http://yoursite.com/2018/04/25/监控之zabbix安装/index.html">
 <meta property="og:site_name" content="amhere's blog">
-<meta property="og:updated_time" content="2018-01-02T01:21:46.000Z">
+<meta property="og:description" content="服务器：ubuntu14.04 其他组件版本：  apache : 2 php : 5 zabbix : 2.2.2  sudo apt-get install apache2        sudo apt-get install php5    sudo apt-get install libapache2-mod-php5    sudo /etc/init.d/apache2 restar">
+<meta property="og:updated_time" content="2018-04-25T08:59:40.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="glusterfs分布式文件系统">
+<meta name="twitter:title" content="监控之zabbix安装">
+<meta name="twitter:description" content="服务器：ubuntu14.04 其他组件版本：  apache : 2 php : 5 zabbix : 2.2.2  sudo apt-get install apache2        sudo apt-get install php5    sudo apt-get install libapache2-mod-php5    sudo /etc/init.d/apache2 restar">
 
 
 
@@ -130,13 +133,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/01/02/glusterfs分布式文件系统/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/04/25/监控之zabbix安装/"/>
 
 
 
 
 
-  <title>glusterfs分布式文件系统 | amhere's blog</title>
+  <title>监控之zabbix安装 | amhere's blog</title>
   
 
 
@@ -259,7 +262,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/02/glusterfs分布式文件系统/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/25/监控之zabbix安装/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="amhere">
@@ -276,7 +279,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">glusterfs分布式文件系统</h1>
+          <h1 class="post-title" itemprop="name headline">监控之zabbix安装</h1>
         
 
         <div class="post-meta">
@@ -288,8 +291,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-02T09:20:45+08:00">
-                2018-01-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-25T15:19:22+08:00">
+                2018-04-25
               </time>
             
 
@@ -307,9 +310,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/01/02/glusterfs分布式文件系统/#comments" itemprop="discussionUrl">
+                <a href="/2018/04/25/监控之zabbix安装/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/01/02/glusterfs分布式文件系统/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/04/25/监控之zabbix安装/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -337,7 +340,85 @@
       
 
       
-        
+        <p>服务器：ubuntu14.04</p>
+<p>其他组件版本：</p>
+<ul>
+<li>apache : 2</li>
+<li>php : 5</li>
+<li>zabbix : 2.2.2</li>
+</ul>
+<pre><code>sudo apt-get install apache2      
+
+sudo apt-get install php5  
+
+sudo apt-get install libapache2-mod-php5  
+
+sudo /etc/init.d/apache2 restart // 重启apache，此时php5已经可用了  
+
+sudo apt-get install mysql-server//数据库账号：root密码：123456  
+
+sudo apt-get install libapache2-mod-auth-mysql  
+
+sudo apt-get install php5-mysql  
+
+sudo /etc/init.d/apache2 restart // 再次重启apache，使新服务正常激活  
+</code></pre><p>然后在终端输入：  </p>
+<pre><code>sudo ls /etc/apache2/mods-enabled  
+</code></pre><p>看看这个目录下（默认存在），有没有php5.conf 和 php5.load，如果没有则：  </p>
+<pre><code>sudo a2enmod php5  
+</code></pre><p>启用 php 模块，然后重启apache即可。OK，apache、php5、mysql都已经可用了。 </p>
+<p>编辑apache文件，配置serverName</p>
+<pre><code>vi /etc/apache2/apache2.conf  
+ServerName 127.0.0.1
+</code></pre><p>重启apache </p>
+<pre><code>sudo /etc/init.d/apache2 restart         
+</code></pre><p>通过<a href="http://127.0.0.1" target="_blank" rel="external">http://127.0.0.1</a> ，已经可以访问apache静态资源服务器了.</p>
+<p>配置PHP参数</p>
+<pre><code>vi /etc/php5/apache2/php.ini
+</code></pre><p>内容如下：</p>
+<pre><code>date.timezone = Asia/Shanghai  
+
+max_input_time = 600  
+
+max_execution_time = 600  
+
+post_max_size =32M  
+
+sudo /etc/init.d/apache2 restart
+</code></pre><p>上面这么多都没有出问题的话 可以开始安装zabbix了</p>
+<p>安装zabbix服务端  </p>
+<pre><code>sudo apt-get install zabbix-server-mysql 
+</code></pre><p>修改/etc/default/zabbix-server文件</p>
+<pre><code>START=yes
+</code></pre><p>配置mysql的zabbix配置，根据这个文档</p>
+<pre><code>cat /usr/share/doc/zabbix-server-mysql/README.Debian
+</code></pre><p>按照步骤来：</p>
+<ul>
+<li><p>mysql -p -e “create database zabbix character set utf8”</p>
+</li>
+<li><p>mysql -p -e “grant all on zabbix.* to ‘zabbix’@’localhost’ identified by ‘zabbix’”</p>
+</li>
+<li><p>zcat /usr/share/zabbix-server-mysql/{schema,images,data}.sql.gz \<br> | mysql -uzabbix -pzabbix zabbix</p>
+</li>
+</ul>
+<p>启动zabbix</p>
+<pre><code>/etc/init.d/zabbix-server start
+</code></pre><p>安装zabbix  网站程序</p>
+<pre><code>apt-get install zabbix-frontend-php
+</code></pre><p>装完以后再做一件事：</p>
+<pre><code>cp -r /usr/share/zabbix /var/www/html/zabbix
+因为apt-get 安装完以后 默认到/usr/share/下了 这样就会造成 网页打不开了 ，所以复制到/var/www/html/下
+</code></pre><p>重启zabbix</p>
+<pre><code>/etc/init.d/zabbix-server restart 
+</code></pre><p>访问<a href="http://127.0.0.1/zabbix" target="_blank" rel="external">http://127.0.0.1/zabbix</a> 就到了访问界面</p>
+<p>到了这步：Check of pre-requisites，发现php有很多错误，重启一下apache就可以啦，再retry下</p>
+<p>安装完以后更改下面这个文件</p>
+<pre><code>vi /etc/zabbix/zabbix_server.conf
+</code></pre><p>检查一下DBuser 与你在WEB界面的配置相同<br>将DBpasswd前面的注释去掉，后面加上你数据库的密码 重新启动一下zabbix OK！即可监控自身</p>
+<p>install阶段缺少配置文件，下载下来，再拷贝到目标服务器即可 /etc/zabbix/</p>
+<p>安装成功之后提示登入：</p>
+<p>默认的初始用户名和密码是：Admin  zabbix</p>
+
       
     </div>
     
@@ -352,12 +433,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/分布式/" rel="tag"># 分布式</a>
-          
-        </div>
-      
 
       
       
@@ -367,8 +442,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/29/docker入门/" rel="next" title="docker入门">
-                <i class="fa fa-chevron-left"></i> docker入门
+              <a href="/2018/05/08/单线程-的浏览器/" rel="next" title="'单线程'的浏览器">
+                <i class="fa fa-chevron-left"></i> '单线程'的浏览器
               </a>
             
           </div>
@@ -377,8 +452,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/12/29/2018寄语/" rel="prev" title="2018寄语">
-                2018寄语 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/04/24/日志系统之mongodb-一/" rel="prev" title="日志系统之mongodb(一)">
+                日志系统之mongodb(一) <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -636,9 +711,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2018/01/02/glusterfs分布式文件系统/';
-          this.page.identifier = '2018/01/02/glusterfs分布式文件系统/';
-          this.page.title = 'glusterfs分布式文件系统';
+          this.page.url = 'http://yoursite.com/2018/04/25/监控之zabbix安装/';
+          this.page.identifier = '2018/04/25/监控之zabbix安装/';
+          this.page.title = '监控之zabbix安装';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://amhere.disqus.com/embed.js';
