@@ -94,20 +94,21 @@
 
 
 
-<meta name="description" content="新版本的docker17.12.0以上(仅限mac edge版本)，内含有kubernutes，如果本地想使用kubernutes，通过下载最新的测试版本docker，就可以不用minikube去安装kubernutes了  不过从stable版本更新到edge版本注意，stable版本本地所有的image都会被清空！！！  这个时候发现我的kubernutes怎么一直处于starting状态，开">
+<meta name="description" content="首先安装prometheus，这步直接下载二进制包，解压，执行就可以了 在https://prometheus.io/download/下载最新版本的，下载后执行： tar xzvf prometheus- .tar cd prometheus... nohup ./prometheus &amp;amp;  之后访问localhost:9090/graph,可以看到图表 配置node： 在https:/">
 <meta name="keywords">
 <meta property="og:type" content="article">
-<meta property="og:title" content="docker入门(二)">
-<meta property="og:url" content="http://yoursite.com/2018/01/30/docker入门-二/index.html">
+<meta property="og:title" content="监控之prometheus">
+<meta property="og:url" content="http://yoursite.com/2018/06/01/监控之prometheus/index.html">
 <meta property="og:site_name" content="amhere's blog">
-<meta property="og:description" content="新版本的docker17.12.0以上(仅限mac edge版本)，内含有kubernutes，如果本地想使用kubernutes，通过下载最新的测试版本docker，就可以不用minikube去安装kubernutes了  不过从stable版本更新到edge版本注意，stable版本本地所有的image都会被清空！！！  这个时候发现我的kubernutes怎么一直处于starting状态，开">
-<meta property="og:image" content="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/docker21.jpeg">
-<meta property="og:image" content="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/docker22.jpeg">
-<meta property="og:updated_time" content="2018-01-31T02:49:33.000Z">
+<meta property="og:description" content="首先安装prometheus，这步直接下载二进制包，解压，执行就可以了 在https://prometheus.io/download/下载最新版本的，下载后执行： tar xzvf prometheus- .tar cd prometheus... nohup ./prometheus &amp;amp;  之后访问localhost:9090/graph,可以看到图表 配置node： 在https:/">
+<meta property="og:image" content="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/prometheus1.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/prometheus2.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/prometheus3.jpeg">
+<meta property="og:updated_time" content="2018-06-16T01:54:03.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="docker入门(二)">
-<meta name="twitter:description" content="新版本的docker17.12.0以上(仅限mac edge版本)，内含有kubernutes，如果本地想使用kubernutes，通过下载最新的测试版本docker，就可以不用minikube去安装kubernutes了  不过从stable版本更新到edge版本注意，stable版本本地所有的image都会被清空！！！  这个时候发现我的kubernutes怎么一直处于starting状态，开">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/docker21.jpeg">
+<meta name="twitter:title" content="监控之prometheus">
+<meta name="twitter:description" content="首先安装prometheus，这步直接下载二进制包，解压，执行就可以了 在https://prometheus.io/download/下载最新版本的，下载后执行： tar xzvf prometheus- .tar cd prometheus... nohup ./prometheus &amp;amp;  之后访问localhost:9090/graph,可以看到图表 配置node： 在https:/">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/prometheus1.jpeg">
 
 
 
@@ -136,13 +137,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/01/30/docker入门-二/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/06/01/监控之prometheus/"/>
 
 
 
 
 
-  <title>docker入门(二) | amhere's blog</title>
+  <title>监控之prometheus | amhere's blog</title>
   
 
 
@@ -265,7 +266,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/30/docker入门-二/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/01/监控之prometheus/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="amhere">
@@ -282,7 +283,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">docker入门(二)</h1>
+          <h1 class="post-title" itemprop="name headline">监控之prometheus</h1>
         
 
         <div class="post-meta">
@@ -294,8 +295,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-30T15:04:41+08:00">
-                2018-01-30
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-01T11:03:37+08:00">
+                2018-06-01
               </time>
             
 
@@ -313,9 +314,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/01/30/docker入门-二/#comments" itemprop="discussionUrl">
+                <a href="/2018/06/01/监控之prometheus/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/01/30/docker入门-二/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/06/01/监控之prometheus/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -343,11 +344,68 @@
       
 
       
-        <p>新版本的docker17.12.0以上(仅限mac edge版本)，内含有kubernutes，如果本地想使用kubernutes，通过下载最新的测试版本docker，就可以不用minikube去安装kubernutes了</p>
-<p><img src="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/docker21.jpeg" alt=""></p>
-<p>不过从stable版本更新到edge版本注意，stable版本本地所有的image都会被清空！！！</p>
-<p><img src="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/docker22.jpeg" alt=""></p>
-<p>这个时候发现我的kubernutes怎么一直处于starting状态，开始以为是网络问题，打开vpn，发现还是run不起来，于是去minikube看issue，发现需要64G内存的空间，恍然大悟，虽然docker客户端版本安装kubernutes没有说是开源的minikube，不过原理应该差不多，开始清理电脑空间。。。</p>
+        <p>首先安装prometheus，这步直接下载二进制包，解压，执行就可以了</p>
+<p>在<a href="https://prometheus.io/download/下载最新版本的，下载后执行：" target="_blank" rel="external">https://prometheus.io/download/下载最新版本的，下载后执行：</a></p>
+<pre><code>tar xzvf prometheus- .tar
+cd prometheus...
+nohup ./prometheus &amp; 
+</code></pre><p>之后访问localhost:9090/graph,可以看到图表</p>
+<p>配置node：</p>
+<p>在<a href="https://prometheus.io/download/#node_exporter" target="_blank" rel="external">https://prometheus.io/download/#node_exporter</a> 下载最新版本的tar包</p>
+<pre><code>tar -xzf node_exporter-0.15.2.darwin-amd64.tar.gz
+cd node_exporter-0.15.2.darwin-amd64
+cp node_exporter-0.15.2.darwin-amd64/node_exporter /usr/local/bin/
+nohup node_exporter &amp;
+</code></pre><p>###prometheus架构</p>
+<p><img src="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/prometheus1.jpeg" alt="Prometheus架构"></p>
+<p>prometheus server都是通过pull的方式来获取监听的exports，这样会有server网络请求压力过高的问题，因为需要定时不停的发送http请求，去请求数据，那么压力都在server这里</p>
+<p>prometheus是一个时序数据库，存储在本地的磁盘，这里就会有个问题，就是存储性能和存储方式类别，以及是否定时的清理文件，还有查询效率的问题，查询历史监控信息的效率问题</p>
+<p>export是通过http暴露给server，让server来拉取数据，两种export，一种是集成好的，例如：cAdvisor，Kubernetes，Etcd，Gokit，对prometheus是支持的，另外一种是不支持prometheus，需要自己需要通过Prometheus提供的Client Library来写export，例如：Mysql Exporter，JMX Exporter，Consul Exporter。</p>
+<p>###Promql</p>
+<p>在形式上，所有的指标(Metric)都通过如下格式标示：</p>
+<pre><code>&lt;metric name&gt;{&lt;label name&gt;=&lt;label value&gt;, ...}
+</code></pre><p>其中以作为前缀的标签，是系统保留的关键字，只能在系统内部使用。标签的值则可以包含任何Unicode编码的字符。在Prometheus的底层实现中指标名称实际上是以<code>name__=</code>的形式保存在数据库中的，因此以下两种方式均表示的同一条time-series：</p>
+<pre><code>api_http_requests_total{method=&quot;POST&quot;, handler=&quot;/messages&quot;}
+{__name__=&quot;api_http_requests_total&quot;，method=&quot;POST&quot;, handler=&quot;/messages&quot;}
+</code></pre><p>PromQL支持使用=和!=两种完全匹配模式：</p>
+<p>PromQL还可以支持使用正则表达式作为匹配条件，多个表达式之间使用|进行分离：</p>
+<p>使用label=~regx表示选择那些标签符合正则表达式定义的时间序列；<br>反之使用label!~regx进行排除；</p>
+<pre><code>http_requests_total{code=~&quot;400|200&quot;}
+</code></pre><p>区间向量表达式：</p>
+<pre><code>http_requests_total{handler=&quot;prometheus&quot;}[1m]
+</code></pre><p>除了使用m表示分钟以外，PromQL的时间范围选择器支持其它时间单位：</p>
+<ul>
+<li>s - 秒</li>
+<li>m - 分钟</li>
+<li>h - 小时</li>
+<li>d - 天</li>
+<li>w - 周</li>
+<li>y - 年</li>
+</ul>
+<p>http_request_total{} # 瞬时向量表达式，选择当前最新的数据</p>
+<p>http_request_total{}[5m] # 区间向量表达式，选择以当前时间为基准，5分钟内的数据</p>
+<p>而如果我们想查询，5分钟前的瞬时样本数据，或昨天一天的区间内的样本数据呢? 这个时候我们就可以使用位移操作，位移操作的关键字为offset。</p>
+<pre><code>http_requests_total{handler=&quot;prometheus&quot;} offset 1d
+</code></pre><p>比较 http_requests_total &gt; bool 100 和 http_requests_total &gt; 100</p>
+<p>在PromQL操作符中优先级由高到低依次为：</p>
+<ul>
+<li>^</li>
+<li>*, /, %</li>
+<li>+, -</li>
+<li>==, !=, &lt;=, &lt;, &gt;=, &gt;</li>
+<li>and, unless</li>
+<li>or</li>
+</ul>
+<p>聚合操作</p>
+<pre><code>sum(http_requests_total)  //请求总量
+count_values(&quot;count&quot;, http_requests_total) //以count为标签，个数
+topk(5, http_requests_total)  //排序
+quantile(0.5, http_requests_total)  //中位数
+</code></pre><p>###prometheus告警</p>
+<p>prometheus 自定义告警规则，如果触发告警规则，prometheus server把告警信息推送给单独的模块（AlertManager）进行处理</p>
+<p>这是一条规则定义，如果触发，首先在（for）定义的时间范围内是pending状态，超过了这个时间，就是FIRING状态</p>
+<p><img src="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/prometheus2.jpeg" alt="Prometheus架构"></p>
+<p><img src="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/prometheus3.jpeg" alt="Prometheus架构"></p>
 
       
     </div>
@@ -372,8 +430,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/31/oracle-jre的javabuildpack制作/" rel="next" title="oracle-jre的buildpack制作">
-                <i class="fa fa-chevron-left"></i> oracle-jre的buildpack制作
+              <a href="/2018/06/05/linux操作/" rel="next" title="linux操作">
+                <i class="fa fa-chevron-left"></i> linux操作
               </a>
             
           </div>
@@ -382,8 +440,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/01/29/docker入门/" rel="prev" title="docker入门">
-                docker入门 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/05/08/单线程-的浏览器/" rel="prev" title="'单线程'的浏览器">
+                '单线程'的浏览器 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -641,9 +699,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2018/01/30/docker入门-二/';
-          this.page.identifier = '2018/01/30/docker入门-二/';
-          this.page.title = 'docker入门(二)';
+          this.page.url = 'http://yoursite.com/2018/06/01/监控之prometheus/';
+          this.page.identifier = '2018/06/01/监控之prometheus/';
+          this.page.title = '监控之prometheus';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://amhere.disqus.com/embed.js';

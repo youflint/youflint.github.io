@@ -101,7 +101,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/04/17/日志系统之rsyslog/index.html">
 <meta property="og:site_name" content="amhere's blog">
 <meta property="og:description" content="关于Rsyslog： Rsyslog 可以理解为一个 sysklogd 的多线程增强版，其在 sysklogd 的基础上扩展了很多其他功能，如：数据库支持(Mysql、Oracle、PostgreSQL等)、日志内容筛选、定义日志格式模板等。除了默认的 UDP 协议外，Rsyslog 还支持 TCP 协议来接受日志。可以对输出的文件进行自动压缩并支持多个TCP侦听以及性能方面的提升。使用 Rsys">
-<meta property="og:updated_time" content="2018-05-17T06:06:13.000Z">
+<meta property="og:updated_time" content="2018-05-17T07:51:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="日志系统之rsyslog">
 <meta name="twitter:description" content="关于Rsyslog： Rsyslog 可以理解为一个 sysklogd 的多线程增强版，其在 sysklogd 的基础上扩展了很多其他功能，如：数据库支持(Mysql、Oracle、PostgreSQL等)、日志内容筛选、定义日志格式模板等。除了默认的 UDP 协议外，Rsyslog 还支持 TCP 协议来接受日志。可以对输出的文件进行自动压缩并支持多个TCP侦听以及性能方面的提升。使用 Rsys">
@@ -366,7 +366,11 @@
 </code></pre><p>在服务端：</p>
 <pre><code>tail -f /var/log/syslog
 </code></pre><p>同样输出相应的语句</p>
-
+<p>ps:rsyslog在我的本本机出现过一个问题，就是修改了配置之后，重启rsyslog，我使用</p>
+<pre><code>service rsyslog restart
+</code></pre><p>是不成功的，只能kill掉这个进程，然后重启rsyslog才成功，不知道是不是个例</p>
+<pre><code>/etc/init.d/rsyslog start
+</code></pre>
       
     </div>
     
@@ -483,7 +487,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

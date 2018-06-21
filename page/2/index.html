@@ -259,6 +259,310 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/30/docker入门-二/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="amhere">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="amhere's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/30/docker入门-二/" itemprop="url">docker入门(二)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-30T15:04:41+08:00">
+                2018-01-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/01/30/docker入门-二/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/01/30/docker入门-二/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>新版本的docker17.12.0以上(仅限mac edge版本)，内含有kubernutes，如果本地想使用kubernutes，通过下载最新的测试版本docker，就可以不用minikube去安装kubernutes了</p>
+<p><img src="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/docker21.jpeg" alt=""></p>
+<p>不过从stable版本更新到edge版本注意，stable版本本地所有的image都会被清空！！！</p>
+<p><img src="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/docker22.jpeg" alt=""></p>
+<p>这个时候发现我的kubernutes怎么一直处于starting状态，开始以为是网络问题，打开vpn，发现还是run不起来，于是去minikube看issue，发现需要64G内存的空间，恍然大悟，虽然docker客户端版本安装kubernutes没有说是开源的minikube，不过原理应该差不多，开始清理电脑空间。。。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/29/docker入门/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="amhere">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="amhere's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/29/docker入门/" itemprop="url">docker入门</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-29T16:08:40+08:00">
+                2018-01-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/01/29/docker入门/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/01/29/docker入门/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在mac下运行docker：<a href="https://download.docker.com/mac/stable/Docker.dmg" target="_blank" rel="external">https://download.docker.com/mac/stable/Docker.dmg</a> 在docker的官网下载mac版本的安装包</p>
+<p>安装，运行：</p>
+<pre><code>docker info
+</code></pre><p>查看docker的基础信息，这些可以在preferences中进行重新配置</p>
+<p>运行一个tank小应用在docker中</p>
+<pre><code>docker pull index.tenxcloud.com/tenxcloud/tomcat
+</code></pre><p>这里使用的是tenxcloud的仓库，也可以使用docker hub，这里面mac有个小坑，如果使用官方hub，需要登入docker，不过需要使用账号而不是邮箱登入</p>
+<p>运行</p>
+<pre><code>docker container ls
+</code></pre><p>发现没有container，说明这个时候只是拉了一个镜像而已，运行：</p>
+<pre><code>docker tag index.tenxcloud.com/tenxcloud/tomcat tomcat-1
+</code></pre><p>给这个镜像起个tomcat－1的名字，启动这个镜像</p>
+<pre><code>docker run -p 5000:8080 --name container1 tomcat-1
+</code></pre><p>启动这个镜像，在container1中运行，docker中的8080端口映射到宿主机的5000端口</p>
+<p><img src="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/docker1.jpeg" alt=""></p>
+<p>把一个tank应用放到container1中运行下</p>
+<pre><code>docker exec -it container1 /bin/bash
+</code></pre><p>查看container1的容器路径结构，需要把应用放到tomcat/webapps下面</p>
+<pre><code>docker cp tank.war container1:tomcat/webapps
+</code></pre><p>docker会自动重启，访问 localhost:5000/tank 就可以访问到应用了</p>
+<p><img src="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/docker2.jpeg" alt=""></p>
+<p>关闭容器</p>
+<pre><code>docker stop container1
+</code></pre><p>利用容器创建镜像</p>
+<pre><code>docker commit -m &quot;tank应用&quot; -a &quot;youflint&quot; 0416d433fb80 youflint/basehub
+</code></pre><p><img src="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/docker3.jpeg" alt=""></p>
+<p>这回在看本地的镜像，发现就会有刚刚创建的，然后把镜像上传到docker hub</p>
+<p>所以的镜像存储在/Users/ssy/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux 这个位置里</p>
+<pre><code>docker run=docker create+docker start
+</code></pre><p>关于镜像：<br>只读的，无状态的，一个镜像永远不可改变？</p>
+<p>kubernetes如何启动docker容器?</p>
+<p>docker image的只读模型和分层模型不了解</p>
+<p>kubernutes本身解决了docker的一下几个缺点，而这几点是我应该去思考的</p>
+<pre><code>容器与容器之间如何发现与通信？
+如何决定在哪运行以及运行多少个容器？
+如何获取容器运行的日志与运行状态信息？
+如何部署新的镜像？
+容器崩溃时都发生了什么？
+如何只将特定的一部分容器暴露在公网或者内网环境下？
+</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/02/glusterfs分布式文件系统/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1850,7 +2154,7 @@ Welcome&lt;br/&gt;
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
