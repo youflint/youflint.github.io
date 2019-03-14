@@ -104,7 +104,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/prometheus1.jpeg">
 <meta property="og:image" content="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/prometheus2.jpeg">
 <meta property="og:image" content="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/prometheus3.jpeg">
-<meta property="og:updated_time" content="2018-12-22T09:38:22.350Z">
+<meta property="og:updated_time" content="2019-03-14T06:53:26.208Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="监控之prometheus">
 <meta name="twitter:description" content="首先安装prometheus，这步直接下载二进制包，解压，执行就可以了 在https://prometheus.io/download/下载最新版本的，下载后执行： tar xzvf prometheus- .tar cd prometheus... nohup ./prometheus &amp;amp;  之后访问localhost:9090/graph,可以看到图表 配置node： 在https:/">
@@ -356,12 +356,12 @@ nohup ./prometheus &amp;
 cd node_exporter-0.15.2.darwin-amd64
 cp node_exporter-0.15.2.darwin-amd64/node_exporter /usr/local/bin/
 nohup node_exporter &amp;
-</code></pre><p>###prometheus架构</p>
+</code></pre><p><strong><font size="3">prometheus架构</font></strong></p>
 <p><img src="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/prometheus1.jpeg" alt="Prometheus架构"></p>
 <p>prometheus server都是通过pull的方式来获取监听的exports，这样会有server网络请求压力过高的问题，因为需要定时不停的发送http请求，去请求数据，那么压力都在server这里</p>
 <p>prometheus是一个时序数据库，存储在本地的磁盘，这里就会有个问题，就是存储性能和存储方式类别，以及是否定时的清理文件，还有查询效率的问题，查询历史监控信息的效率问题</p>
 <p>export是通过http暴露给server，让server来拉取数据，两种export，一种是集成好的，例如：cAdvisor，Kubernetes，Etcd，Gokit，对prometheus是支持的，另外一种是不支持prometheus，需要自己需要通过Prometheus提供的Client Library来写export，例如：Mysql Exporter，JMX Exporter，Consul Exporter。</p>
-<p>###Promql</p>
+<p><strong><font size="3">Promql</font></strong></p>
 <p>在形式上，所有的指标(Metric)都通过如下格式标示：</p>
 <pre><code>&lt;metric name&gt;{&lt;label name&gt;=&lt;label value&gt;, ...}
 </code></pre><p>其中以作为前缀的标签，是系统保留的关键字，只能在系统内部使用。标签的值则可以包含任何Unicode编码的字符。在Prometheus的底层实现中指标名称实际上是以<code>name__=</code>的形式保存在数据库中的，因此以下两种方式均表示的同一条time-series：</p>
@@ -401,7 +401,7 @@ nohup node_exporter &amp;
 count_values(&quot;count&quot;, http_requests_total) //以count为标签，个数
 topk(5, http_requests_total)  //排序
 quantile(0.5, http_requests_total)  //中位数
-</code></pre><p>###prometheus告警</p>
+</code></pre><p><strong><font size="3">prometheus告警</font></strong></p>
 <p>prometheus 自定义告警规则，如果触发告警规则，prometheus server把告警信息推送给单独的模块（AlertManager）进行处理</p>
 <p>这是一条规则定义，如果触发，首先在（for）定义的时间范围内是pending状态，超过了这个时间，就是FIRING状态</p>
 <p><img src="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/prometheus2.jpeg" alt="Prometheus架构"></p>

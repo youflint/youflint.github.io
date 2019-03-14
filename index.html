@@ -341,8 +341,9 @@
       
         
           
-            <p>###elk介绍:###</p>
+            <p><strong><font size="5">elk介绍:</font></strong></p>
 <p>elasticsearch+logstash+kibana作为业界主流的日志存储分析平台，是相当成熟的解决方案。logstash作为日志采集、处理工具，elasticsearch作为日志存储分析工具，kibana作为日志展示工具。对这套很多也进行优化，比如logstash比较消耗资源，用相对轻量的日志采集工具来替代，还有使用redis、kafka等缓存技术，解决logstash无缓存的功能。做到高可用和分布式的架构，很多使用logstash shipper（只做采集使用，不消耗目标节点上面运行的资源）+kafka（作为消息中间件，缓存使用）+logstash indexer（统一的消息收集、处理、创建索引，通畅单独部署）+elasticsearch集群+kibana。我这回部署的是基本的logstash shipper+elasticsearch+kibana。</p>
+<p><strong><font size="5">elk部署：</font></strong></p>
 <p>搭建集群准备（5台CenterOS 7.2的机器）：</p>
 <ul>
 <li>102：elasticsearch</li>
@@ -351,7 +352,7 @@
 <li>45：logstash shipper</li>
 <li>86：kibana</li>
 </ul>
-<p>###首先安装elasticsearch:###</p>
+<p><strong><font size="3">首先安装elasticsearch:</font></strong></p>
 <p>修改配置文件： </p>
 <pre><code>vim config/elasticsearch.yml
 </code></pre><p>主要修改了2点：</p>
@@ -436,7 +437,7 @@ discovery.zen.minimum_master_nodes: 2
 <p>验证下：</p>
 <p><img src="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/elk13.jpeg" alt="Prometheus架构"></p>
 <p>输入： curl -XGET ‘<a href="http://172.29.4.103:9200/_cat?pretty" target="_blank" rel="external">http://172.29.4.103:9200/_cat?pretty</a>‘  来验证部署成功 </p>
-<p>###安装logstash：###</p>
+<p><strong><font size="3">安装logstash：</font></strong></p>
 <p>解压安装包：logstash</p>
 <p>首先安装shipper，编辑一个shipper的文件</p>
 <p><img src="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/elk14.jpeg" alt="Prometheus架构"></p>
@@ -445,7 +446,7 @@ discovery.zen.minimum_master_nodes: 2
 </code></pre><p>验证下：成功</p>
 <p><img src="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/elk15.jpeg" alt="Prometheus架构"></p>
 <p><img src="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/elk16.jpeg" alt="Prometheus架构"></p>
-<p>###安装kinaba:###</p>
+<p><strong><font size="3">安装kinaba:</font></strong></p>
 <pre><code>vim config/kibana.yml
 </code></pre><p>修改配置文件：</p>
 <pre><code>server.port: 5601
@@ -1531,12 +1532,12 @@ nohup ./prometheus &amp;
 cd node_exporter-0.15.2.darwin-amd64
 cp node_exporter-0.15.2.darwin-amd64/node_exporter /usr/local/bin/
 nohup node_exporter &amp;
-</code></pre><p>###prometheus架构</p>
+</code></pre><p><strong><font size="3">prometheus架构</font></strong></p>
 <p><img src="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/prometheus1.jpeg" alt="Prometheus架构"></p>
 <p>prometheus server都是通过pull的方式来获取监听的exports，这样会有server网络请求压力过高的问题，因为需要定时不停的发送http请求，去请求数据，那么压力都在server这里</p>
 <p>prometheus是一个时序数据库，存储在本地的磁盘，这里就会有个问题，就是存储性能和存储方式类别，以及是否定时的清理文件，还有查询效率的问题，查询历史监控信息的效率问题</p>
 <p>export是通过http暴露给server，让server来拉取数据，两种export，一种是集成好的，例如：cAdvisor，Kubernetes，Etcd，Gokit，对prometheus是支持的，另外一种是不支持prometheus，需要自己需要通过Prometheus提供的Client Library来写export，例如：Mysql Exporter，JMX Exporter，Consul Exporter。</p>
-<p>###Promql</p>
+<p><strong><font size="3">Promql</font></strong></p>
 <p>在形式上，所有的指标(Metric)都通过如下格式标示：</p>
 <pre><code>&lt;metric name&gt;{&lt;label name&gt;=&lt;label value&gt;, ...}
 </code></pre><p>其中以作为前缀的标签，是系统保留的关键字，只能在系统内部使用。标签的值则可以包含任何Unicode编码的字符。在Prometheus的底层实现中指标名称实际上是以<code>name__=</code>的形式保存在数据库中的，因此以下两种方式均表示的同一条time-series：</p>
@@ -1576,7 +1577,7 @@ nohup node_exporter &amp;
 count_values(&quot;count&quot;, http_requests_total) //以count为标签，个数
 topk(5, http_requests_total)  //排序
 quantile(0.5, http_requests_total)  //中位数
-</code></pre><p>###prometheus告警</p>
+</code></pre><p><strong><font size="3">prometheus告警</font></strong></p>
 <p>prometheus 自定义告警规则，如果触发告警规则，prometheus server把告警信息推送给单独的模块（AlertManager）进行处理</p>
 <p>这是一条规则定义，如果触发，首先在（for）定义的时间范围内是pending状态，超过了这个时间，就是FIRING状态</p>
 <p><img src="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/prometheus2.jpeg" alt="Prometheus架构"></p>
