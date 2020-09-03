@@ -259,6 +259,181 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/26/区域链入门/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="amhere">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="amhere's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/26/区域链入门/" itemprop="url">区域链入门</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-26T15:55:29+08:00">
+                2017-12-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/26/区域链入门/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/12/26/区域链入门/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong><font size="5">区域链简介</font></strong></p>
+<p>是指用去中心化的方法来共同维护数据库，每个区块包含系统在一定时间的全部信息，比特币是目前区域链应用最知名的。</p>
+<p>传统的交易都有第三方的监管来构建买卖双方的信任，比特币去中心化，使得第三方的监管变成了全网，一次交易通知所有的节点，这么看，肯定比单一的第三方更值得信任，不过也会收到51%攻击，因为区块被恶意伪造，超过51%的赞成票，虚假的交易记录会被认可，所以比特币使用消耗大量算力来避免这种攻击，因为计算使用的资源超过交易收益。区域链采用单向hash算法，严格按照时间排序，改变单一区块会被其他节点否决，从而保证安全。</p>
+<p>区域链的几个特点：</p>
+<ul>
+<li>集体维护：系统的数据快所有节点维护</li>
+<li>高度透明：开源</li>
+<li>匿名：信任解决，不需要实名</li>
+</ul>
+<p><strong><font size="5">mac下安装私有链</font></strong></p>
+<p>切换到ethereum第三方库</p>
+<pre><code>brew tap ethereum/ethereum
+</code></pre><p>安装geth</p>
+<pre><code>brew install ethereum
+</code></pre><p>验证geth安装成功</p>
+<pre><code>geth －h
+</code></pre><p>创建一条私有链</p>
+<pre><code>mkdir ethereum
+
+vi genesis.json
+</code></pre><p>同<a href="https://github.com/ethereum/go-ethereum" target="_blank" rel="external">https://github.com/ethereum/go-ethereum</a></p>
+<pre><code>{
+  &quot;config&quot;: {
+        &quot;chainId&quot;: 0,
+        &quot;homesteadBlock&quot;: 0,
+        &quot;eip155Block&quot;: 0,
+        &quot;eip158Block&quot;: 0
+    },
+  &quot;alloc&quot;      : {},
+  &quot;coinbase&quot;   : &quot;0x0000000000000000000000000000000000000000&quot;,
+  &quot;difficulty&quot; : &quot;0x20000&quot;,
+  &quot;extraData&quot;  : &quot;&quot;,
+  &quot;gasLimit&quot;   : &quot;0x2fefd8&quot;,
+  &quot;nonce&quot;      : &quot;0x0000000000000042&quot;,
+  &quot;mixhash&quot;    : &quot;0x0000000000000000000000000000000000000000000000000000000000000000&quot;,
+  &quot;parentHash&quot; : &quot;0x0000000000000000000000000000000000000000000000000000000000000000&quot;,
+  &quot;timestamp&quot;  : &quot;0x00&quot;
+}
+</code></pre><p>初始化私有链</p>
+<pre><code>geth --datadir &quot;./&quot; init genesis.json
+</code></pre><p><img src="https://raw.githubusercontent.com/youflint/MarkdownPhotos/master/photo/WechatIMG141.jpeg" alt=""></p>
+<p>启动geth</p>
+<pre><code>geth --datadir &quot;./&quot; --nodiscover console 2&gt;&gt;geth.log
+</code></pre><p>输入,查看第一个区块信息</p>
+<pre><code>&gt; eth.getBlock(0)
+</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/26/Cloudfoundry-Java-Buildpack源码分析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -490,7 +665,7 @@ puts output  #输出返回值
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -545,7 +720,7 @@ puts output  #输出返回值
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2019</span>
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

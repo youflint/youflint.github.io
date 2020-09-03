@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="keycloak简介: 这里使用的keycloak作为单点登入服务器的应用，但是keycloak不仅于sso的功能 通过Keycloak处理用户认证，用户不需要再次登录Keycloak管理下的其它应用。实现一次登录，多处登录不同应用，一处登出，所有应用登出。 keycloak核心概念: users：用户是一个可以登陆系统的实体，它可以拥有联系它们自身的属性，例如邮箱、用户名、地址、电话号码或生日等">
+<meta name="keywords">
+<meta property="og:type" content="article">
+<meta property="og:title" content="keycloak介绍和sso对接">
+<meta property="og:url" content="http://yoursite.com/2020/05/15/keycloak介绍和sso对接/index.html">
+<meta property="og:site_name" content="amhere's blog">
+<meta property="og:description" content="keycloak简介: 这里使用的keycloak作为单点登入服务器的应用，但是keycloak不仅于sso的功能 通过Keycloak处理用户认证，用户不需要再次登录Keycloak管理下的其它应用。实现一次登录，多处登录不同应用，一处登出，所有应用登出。 keycloak核心概念: users：用户是一个可以登陆系统的实体，它可以拥有联系它们自身的属性，例如邮箱、用户名、地址、电话号码或生日等">
+<meta property="og:updated_time" content="2020-05-25T08:23:53.018Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="keycloak介绍和sso对接">
+<meta name="twitter:description" content="keycloak简介: 这里使用的keycloak作为单点登入服务器的应用，但是keycloak不仅于sso的功能 通过Keycloak处理用户认证，用户不需要再次登录Keycloak管理下的其它应用。实现一次登录，多处登录不同应用，一处登出，所有应用登出。 keycloak核心概念: users：用户是一个可以登陆系统的实体，它可以拥有联系它们自身的属性，例如邮箱、用户名、地址、电话号码或生日等">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/05/15/keycloak介绍和sso对接/"/>
+
+
+
+
+
+  <title>keycloak介绍和sso对接 | amhere's blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">amhere's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/15/keycloak介绍和sso对接/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="amhere">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="amhere's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">keycloak介绍和sso对接</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-15T09:48:03+08:00">
+                2020-05-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/05/15/keycloak介绍和sso对接/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2020/05/15/keycloak介绍和sso对接/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong><font size="5">keycloak简介:</font></strong></p>
+<p>这里使用的keycloak作为单点登入服务器的应用，但是keycloak不仅于sso的功能</p>
+<p>通过Keycloak处理用户认证，用户不需要再次登录Keycloak管理下的其它应用。实现一次登录，多处登录不同应用，一处登出，所有应用登出。</p>
+<p><strong><font size="5">keycloak核心概念:</font></strong></p>
+<p>users：用户是一个可以登陆系统的实体，它可以拥有联系它们自身的属性，例如邮箱、用户名、地址、电话号码或生日等，可以为user分配组别或者角色。</p>
+<p>authentication：相当于密码，可以验证和识别一个user。</p>
+<p>authorization：给予用户访问的过程。</p>
+<p>credentials：证书，可以供keycloak验证用户的东西，例如密码、一次性密码、证书、指纹等。</p>
+<p>roles：相当于用户的一个分类 ，一个组织可能有Admin\user\manager\emplee等角色，应用程序经常会分配权限给角色，而不是用户，因为用户太难管理。</p>
+<p>user role mapping：定义了一个用户及角色的关系，一个用户可以属于零个或多个角色，用户与角色的映射关系，这样就可以决定用在各种资源访问的权限管理。</p>
+<p>composite roles：复合角色可以包含其他的角色，用户拥有了复合角色就相当于拥有了它下面的所有子角色。</p>
+<p>groups：组可以一组的用户，也可以将角色映射到角色中，用户可以成为组员后继承用组的角色</p>
+<p>realms：领域，领域管理着一批，用户、证书、角色、组等，一个用户只能属于且能登陆到一个域，域之间是互相独立的，域只能管理在它下面的用户。</p>
+<p>clients：客户端是一个实体，可以请求keycloak对用户进行身份验证，大部分情况下，客户端是应用或服务希望使用keycloak来保护自己和提供一个单点登录的解决方案。客户端也可以是一个实体，请求身份信息或一个访问信息，这样就可以调用其他keycloak保护的应用或服务了。</p>
+<p><strong><font size="5">单点登入协议protocols:</font></strong></p>
+<p>对比点    OAuth2|    OpenID|    SMAL</p>
+<p>票据格式    JSON or SAML2|    JSON|    XML</p>
+<p>支持授权    Yes|    No|    Yes</p>
+<p>支持认证    “伪认证”    |Yes|    Yes</p>
+<p>创建年份    2005|    2006|    2001</p>
+<p>最新版本    OAuth2|    OpenID Connect|    SAML 2.0</p>
+<p>传输方式    HTTP|    HTTP GET and HTTP POST    | HTTP重定向，SAML SOAP绑定，HTTP POST绑定等</p>
+<p>安全弱点    不能抵抗网络钓鱼，OAuth没有使用数据签名和加密等措施，数据安全完全依赖TLS    |不能抵抗网络钓鱼，一个钓鱼的IDP如果恶意记录下来用户的OpenID，将会造成很严重的隐私安全问题|    XML签名存在漏洞，可能被伪造</p>
+<p>使用场景    API 授权    商用应用的单点登录    企业级单点登录，但是对于移动端支持不是很好</p>
+<ul>
+<li>openid connect </li>
+</ul>
+<p>是openid的三代产品，是基于oauth协议，openid1和2只有认证(authenticate)功能，openid connect有了授权(authorize)功能</p>
+<p><strong><font size="5">jwt简介</font></strong></p>
+<p>jwt有以下特性：</p>
+<ul>
+<li><p>自包含性：jwt本身解析出来就包换大量的信息，用户的信息，权限信息等</p>
+</li>
+<li><p>紧凑性</p>
+</li>
+<li><p>防篡改：jwt一般base64加密，为了信息不被篡改，有数字请签名等校验方式</p>
+</li>
+</ul>
+<p>jwt是数据形式，这里对jwt进行扩展，包含jws和jwe，jws相当于有数字签名，jwe更加复杂，计算繁琐，信息都是加密的，适合数据传输，不适合token认证。</p>
+<p><strong><font size="5">客户端授权模式</font></strong></p>
+<p>implicit：简化模式，（不安全，适用于纯静态页面应用）</p>
+<p>authorization code：授权码模式（功能最完整、流程最严密的授权模式，通常使用在公网的开放平台中）</p>
+<p>resource owner password credentials：密码模式（一般在内部系统中使用，调用者是以用户为单位，用在系统间高度信任的场景，因为有密码泄露的风险。）</p>
+<p>client credentials：客户端模式（一般在内部系统之间的API调用。两个平台之间调用。比如调用消息服务、日志模块等，调用者是以平台为单位。）</p>
+<p><strong><font size="5">vue对接keycloak</font></strong></p>
+<p>keycloak官网有js的对接方案，这里使用了vue的解决方案，参考：<a href="https://github.com/dsb-norge/vue-keycloak-js" target="_blank" rel="external">https://github.com/dsb-norge/vue-keycloak-js</a></p>
+<p>引入执行：</p>
+<pre><code>npm i --save @dsb-norge/vue-keycloak-js 
+</code></pre><p>关键代码分析：</p>
+<pre><code>Vue.use(keycloak , {
+    init: {
+        onLoad: &apos;login-required&apos;
+    },
+    config: {  // 这里配置keycloak的服务地址，和client信息
+        url: &apos;http://192.168.1.186:8080/auth&apos;,
+        realm: &apos;test&apos;,
+        clientId: &apos;pandora&apos;
+    },
+    onReady: (keycloak) =&gt; {
+        // keycloak.token 是keycloak生成的token信息 jwt格式
+        console.log(&quot;token:&quot;+keycloak.token)
+        keycloak.loadUserProfile().success((data) =&gt; {
+            // 通过token检验用户信息，返回登入用户的username
+            console.log(&quot;user:&quot;+data.username);
+            this.username = data.username;
+            // 通过username获取pandora的token
+            // generateToken(this.username);
+        });
+    }
+});
+</code></pre><p>注意事项：使用的时候使用的history的路由配置，使用hash会导致重定向问题，dsb-norge开源项目示例也是使用的history配置。</p>
+<p><strong><font size="5">springboot对接keycloak</font></strong></p>
+<p>在pom.xml文件中插入</p>
+<pre><code>&lt;!-- keycloak相关--&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.keycloak&lt;/groupId&gt;
+        &lt;artifactId&gt;keycloak-spring-boot-starter&lt;/artifactId&gt;
+        &lt;version&gt;10.0.1&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.keycloak.bom&lt;/groupId&gt;
+        &lt;artifactId&gt;keycloak-adapter-bom&lt;/artifactId&gt;
+        &lt;version&gt;10.0.1&lt;/version&gt;
+        &lt;type&gt;pom&lt;/type&gt;
+        &lt;scope&gt;import&lt;/scope&gt;
+    &lt;/dependency&gt;
+</code></pre><p>在application.yml中配置keycloak服务器和权限相关的</p>
+<pre><code>keycloak:
+    realm: test
+    auth-server-url: http://192.168.1.186:8080/auth
+    ssl-required: external
+    resource: springboot
+    credentials:
+        secret:
+    use-resource-role-mappings: true
+    security-constraints[0]:
+        authRoles[0]: admin
+        authRoles[1]: user
+        securityCollections[0]:
+            name: insecure stuff
+            patterns[0]: /*
+</code></pre><p><strong><font size="5">pandora请求接口</font></strong></p>
+<p><strong>简要描述：</strong></p>
+<p>通过username换取平台token信息</p>
+<p><strong>请求URL：</strong></p>
+<ul>
+<li><code>/sso/username_login</code></li>
+</ul>
+<p><strong>请求方式：</strong></p>
+<ul>
+<li>get</li>
+</ul>
+<p><strong>参数：</strong></p>
+<ul>
+<li><p>参数名：username</p>
+</li>
+<li><p>类型：String</p>
+</li>
+<li><p>示例：admin</p>
+</li>
+</ul>
+<p><strong>返回示例</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;msg&quot;: &quot;success&quot;,</div><div class="line">    &quot;code&quot;: 0,</div><div class="line">    &quot;expire&quot;: 43200,</div><div class="line">    &quot;token&quot;: &quot;69e97d3500f06d594c1d0ba8950f2a76&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/04/elasticsearch作为平台搜索在项目中的使用/" rel="prev" title="elasticsearch作为平台搜索在项目中的使用">
+                elasticsearch作为平台搜索在项目中的使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="amhere" />
+          <p class="site-author-name" itemprop="name">amhere</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">amhere</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://amhere.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2020/05/15/keycloak介绍和sso对接/';
+          this.page.identifier = '2020/05/15/keycloak介绍和sso对接/';
+          this.page.title = 'keycloak介绍和sso对接';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://amhere.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

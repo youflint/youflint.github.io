@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="elasticsearch," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="elasticsearch介绍: Elasticsearch（ES）是一个基于Lucene构建的开源、分布式、RESTful接口的全文搜索引擎。Elasticsearch还是一个分布式文档数据库，其中每个字段均可被索引，而且每个字段的数据均可被搜索，ES能够横向扩展至数以百计的服务器存储以及处理PB级的数据。可以在极短的时间内存储、搜索和分析大量的数据。 项目使用es作为全平台搜索，考虑的是ela">
+<meta name="keywords" content="elasticsearch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="elasticsearch作为平台搜索在项目中的使用">
+<meta property="og:url" content="http://yoursite.com/2019/09/04/elasticsearch作为平台搜索在项目中的使用/index.html">
+<meta property="og:site_name" content="amhere's blog">
+<meta property="og:description" content="elasticsearch介绍: Elasticsearch（ES）是一个基于Lucene构建的开源、分布式、RESTful接口的全文搜索引擎。Elasticsearch还是一个分布式文档数据库，其中每个字段均可被索引，而且每个字段的数据均可被搜索，ES能够横向扩展至数以百计的服务器存储以及处理PB级的数据。可以在极短的时间内存储、搜索和分析大量的数据。 项目使用es作为全平台搜索，考虑的是ela">
+<meta property="og:updated_time" content="2019-09-04T08:50:09.004Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="elasticsearch作为平台搜索在项目中的使用">
+<meta name="twitter:description" content="elasticsearch介绍: Elasticsearch（ES）是一个基于Lucene构建的开源、分布式、RESTful接口的全文搜索引擎。Elasticsearch还是一个分布式文档数据库，其中每个字段均可被索引，而且每个字段的数据均可被搜索，ES能够横向扩展至数以百计的服务器存储以及处理PB级的数据。可以在极短的时间内存储、搜索和分析大量的数据。 项目使用es作为全平台搜索，考虑的是ela">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/09/04/elasticsearch作为平台搜索在项目中的使用/"/>
+
+
+
+
+
+  <title>elasticsearch作为平台搜索在项目中的使用 | amhere's blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">amhere's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/04/elasticsearch作为平台搜索在项目中的使用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="amhere">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="amhere's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">elasticsearch作为平台搜索在项目中的使用</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-04T10:10:57+08:00">
+                2019-09-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/09/04/elasticsearch作为平台搜索在项目中的使用/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/09/04/elasticsearch作为平台搜索在项目中的使用/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong><font size="5">elasticsearch介绍:</font></strong></p>
+<p>Elasticsearch（ES）是一个基于Lucene构建的开源、分布式、RESTful接口的全文搜索引擎。Elasticsearch还是一个分布式文档数据库，其中每个字段均可被索引，而且每个字段的数据均可被搜索，ES能够横向扩展至数以百计的服务器存储以及处理PB级的数据。可以在极短的时间内存储、搜索和分析大量的数据。</p>
+<p>项目使用es作为全平台搜索，考虑的是elasticsearch的良好的搜索性，支持中文分词、高亮显示、搜索排序算法、富文本标签过滤处理，大数据量搜索等的特性。</p>
+<p><strong><font size="5">elasticsearch重要概念介绍：</font></strong></p>
+<ul>
+<li>index</li>
+</ul>
+<p>index是索引，相似文档的集合。项目使用中把mysql中的表的作为各自的索引，这么使用的好处一个是业务逻辑清晰，还有相同文档放在一个index中，无论是同步和mapping都非常便捷，这个后续会提到。</p>
+<ul>
+<li>document</li>
+</ul>
+<p>文档，在项目使用中对应mysql的一行数据。</p>
+<ul>
+<li>type</li>
+</ul>
+<p>类型，这个要注意，在7.x之前版本type是可以有多个的，7.x之后版本，type只有一个，是_doc，所以在接口搜索上面会有区别。</p>
+<ul>
+<li>Shards &amp; Replicas</li>
+</ul>
+<p>分片和副本，分片和副本是es分布式和高可用的体现。控制分片所在节点和控制分片大小来优化es集群，提高es吞吐能力。</p>
+<ul>
+<li>field</li>
+</ul>
+<p>字段，类似mysql中字段的概念。一个document中可以多个字段，字段有不用的类型：long、int、date、string等。</p>
+<ul>
+<li>mapping</li>
+</ul>
+<p>类似mysql的表结构定义。对index进行mapping，可以对document的field类型进行定义，使用的分词器定义、是否对字段进行索引 等功能。<br>目前5.x 、6.x 7.x的mapping一经定义，是不可以动态修改的。所以需要重新创建index才可以重新定义mapping。</p>
+<p><strong><font size="3">elasticsearch项目中的运用</font></strong></p>
+<p>线上环境使用的是es6.4.3版本，自己测试的单机版本是最近的7.3.0版本，但是7.x版本包括spring-data-elasticsearch的api并不兼容，而且7.x取消了type可以设置多个，所以很多api或者查询并以一致，这里面有很多坑，要踩。</p>
+<p>说下项目中的运用，之前是直接通过springboot-data-elasticsearch的api，来创建document，然后搜索也是调用springboot-data-elasticsearch的api来进行搜索。但是有几个问题存在：</p>
+<ul>
+<li>es侵入到了业务代码中，比如个人文件从回收站回收要重新记录到es里面，但是协同工作，功能的更改，可以要修改es代码，未来维护起来比较麻烦。</li>
+<li>历史数据的导入问题，重新创建es索引，或者数据库本身就存在的历史数据、或者项目迁移，es环境更换，都会导致历史数据不能同步的问题</li>
+</ul>
+<p>所以是用来logstash-input-jdbc的同步方案。</p>
+<p><strong><font size="5">logstash-input-jdbc同步方案介绍</font></strong></p>
+<p>logstash-input-jdbc是logstash对接关系型数据库的插件，轻量的定时同步工具，logstash天然的和elasticsearch匹配的便利性。支持增量同步和全量同步。但是在实际的项目运行中遇到了一些相对麻烦需要研究的地方：</p>
+<p>同步是根据sql来进行，所以设计到复杂数据结构和复杂的sql查询数据处理会比较复杂，要通过logstash的filter的各种插件来进行数据的转化，具体项目中使用的filter后续说明。</p>
+<p><strong><font size="3">logstash-input-jdbc部署</font></strong></p>
+<ol>
+<li><p>安装logstash</p>
+</li>
+<li><p>安装logstash-input-jdbc插件</p>
+<pre><code>cd bin
+./logstash-plugin install logstash-input-jdbc
+</code></pre></li>
+</ol>
+<ol>
+<li><p>在logstash文件夹下创建：</p>
+<pre><code>mkdir config-mysql
+cd config-mysql
+vim mysql.conf 
+</code></pre></li>
+</ol>
+<ol>
+<li><p>输入：（这个只是案例）</p>
+<pre><code>input {
+    stdin {
+    }
+    jdbc {
+      # 数据库
+      jdbc_connection_string =&gt; &quot;jdbc:mysql://localhost:3306/test01&quot;
+      # 用户名密码(你的数据库的用户名和密码)
+      jdbc_user =&gt; &quot;root&quot;
+      jdbc_password =&gt; &quot;password&quot;
+      # jar包的位置
+      jdbc_driver_library =&gt; &quot;/usr/local/logstash-5.6.3/mysql-connector-java-5.1.41.jar&quot;
+      # mysql的Driver
+      jdbc_driver_class =&gt; &quot;com.mysql.jdbc.Driver&quot;
+      jdbc_paging_enabled =&gt; &quot;true&quot;
+      jdbc_page_size =&gt; &quot;50000&quot;
+      # statement_filepath代码sql文件，statement是sql，二选一就可以
+      #statement_filepath =&gt; &quot;config-mysql/test02.sql&quot;
+      statement =&gt; &quot;select * from test02&quot;
+      # schedule 定时器分别代表“分 小时 天  月 年”，最小的单位是1分钟
+      schedule =&gt; &quot;* * * * *&quot;
+      #索引的类型，在filter和output进行逻辑判断时候使用
+      type =&gt; &quot;test02&quot;
+    }
+}
+
+filter {
+    json {
+        source =&gt; &quot;message&quot;
+        remove_field =&gt; [&quot;message&quot;]
+    }
+}
+
+output {
+    elasticsearch {
+        hosts =&gt; &quot;127.0.0.1:9200&quot;
+        # index名
+        index =&gt; &quot;test01&quot;
+        # 需要关联的数据库中有有一个id字段，对应索引的id号
+        document_id =&gt; &quot;%{id}&quot;
+    }
+    stdout {
+        codec =&gt; json_lines
+    }
+}
+</code></pre></li>
+<li><p>启动：</p>
+<pre><code>./logstash -f config-mysql/mysql.conf
+</code></pre></li>
+</ol>
+<p><strong><font size="3">项目中对es Mapping的使用</font></strong></p>
+<p>项目最开始创建mapping是通过使用springboot-data-elasticsearch的注解方式来创建mapping</p>
+<pre><code>@Document(indexName = &quot;article&quot;,type = &quot;docs&quot;)
+public class EsArticlesEntity {
+
+    /**
+     * id
+     */
+    @Id
+    private Long id;
+
+    /**
+     * GUID
+     */
+    @Field(type=FieldType.Text)
+    private String guid;
+
+    /**
+     * 标题
+     */
+    @Field(type=FieldType.Text, analyzer=&quot;ik_max_word&quot;,store=true)
+    private String title;
+}
+</code></pre><p>但是在通过es的查询mapping 接口，发现只有index和field创建成功了，但是字段的类型并没有生效，而是自动生成的，spring-boot-elasticsearch api并没有完全紧跟es的更新步伐，可能是注解接口没有生效导致的。</p>
+<p>这里使用了ik_max_word的analyzer（分析器），是通过es安装的ik分词器，ik有很好的中文分词效果，ik_max_word是把一段话用最小的颗粒度来进行分词，ik_smart是智能分词，颗粒度较大。</p>
+<p><strong><font size="3">es安装ik：</font></strong></p>
+<pre><code>cd elasticsearch-7.3.0/bin/
+./elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.3.0/elasticsearch-analysis-ik-7.3.0.zip
+cd analysis-ik/
+vim IKAnalyzer.cfg.xml
+</code></pre><p>修改：</p>
+<pre><code>&lt;!--用户可以在这里配置自己的扩展字典 --&gt;
+&lt;entry key=&quot;ext_dict&quot;&gt;extra_single_word_full.dic&lt;/entry&gt;
+</code></pre><p>重启即可</p>
+<p><strong><font size="3">自定义analyzer</font></strong></p>
+<p>项目实际中有富文本，所以会有大量的标签页，对这些HTML标签需要过滤，否则会影响搜索的结果。所以需要使用自定义的分析器，analyzer由几部分构成：从文档中提取词元（Token）的算法称为分词器（Tokenizer），在分词前预处理的算法称为字符过滤器（Character Filter），进一步处理词元的算法称为词元过滤器（Token Filter），最后得到词（Term）。这整个分析算法称为分析器（Analyzer）。使用html_strip的过滤器可以对html标签进行过滤，不过这里在6.x版本需要注意，使用的时候需要先停用索引，创建好analyzer在开启索引</p>
+<pre><code>curl -XPOST &apos;localhost:9200/article/_close&apos;
+
+curl -XPUT &quot;http://localhost:9200/article/_settings&quot; -H &apos;Content-Type: application/json&apos; -d&apos;
+{
+  &quot;index&quot;: {
+    &quot;analysis&quot;: {
+      &quot;analyzer&quot;: {
+        &quot;ik-html&quot;: {
+          &quot;char_filter&quot;: [ &quot;html_strip&quot; ],
+          &quot;tokenizer&quot;: &quot;ik_max_word&quot;
+        }
+      }
+    }
+  }
+}&apos;
+
+curl -XPOST &apos;localhost:9200/article/_open&apos;
+</code></pre><p>ik-html是自己定义的名称，之后可以在创建mapping中可以使用ik-html这个analyzer了。</p>
+<p><strong><font size="5">项目实际运用的重点代码梳理</font></strong></p>
+<p><strong><font size="3">概述</font></strong></p>
+<p>重要字段：</p>
+<pre><code>字段 | 类型 |  描述  
+-    |-    |  -
+id | long |  |
+guid | text |  |
+title | text |标题  |
+subTitle | text |副标题  |
+createTime | long |  |
+content | text | 内容 |
+organizationIds | long |可见组织（鉴权），是数组  |
+hasOpen | integer |是否可见（鉴权）  |
+validityDate | long | 有效期限（文章可见的条件）  |
+validityDateType | integer | 是否永久 |
+creatorName | text |  |
+</code></pre><p>搜索需要根据title、subtitle、content这3个字段的来进行字符串搜索，通过organizationIds、hasopen、validitydate和validitydatetype字段来控制搜索范围，具有一定权限的和在有效期限的document才可以被搜索到。</p>
+<p><strong><font size="3">springboot-data-elasticsearch重要代码</font></strong></p>
+<pre><code>//用户所在组织是否有读取权限，获取用户所在组织id,组织builder
+BoolQueryBuilder organizationBuilder = QueryBuilders.boolQuery();
+Long[] organizations = null ;
+if (StringUtils.isNotBlank(user.getOrganizations())) {
+    String[] orgIds = user.getOrganizations().split(&quot;,&quot;);
+    organizations = (Long[]) ConvertUtils.convert(orgIds, Long.class);
+}
+if(organizations!=null&amp;&amp;organizations.length&gt;0){
+    for(int i = 0;i&lt;organizations.length;i++){
+        organizationBuilder.should(QueryBuilders.termQuery(&quot;organizationIds&quot;,organizations[i]));
+    }
+}
+organizationBuilder.should(QueryBuilders.termQuery(&quot;hasOpen&quot;,1));
+organizationBuilder.should(QueryBuilders.termQuery(&quot;userIds&quot;,user.getUserId()));
+
+// 判断文件是否在有效期内
+BoolQueryBuilder validityTimeBuilder = QueryBuilders.boolQuery();
+validityTimeBuilder.should(QueryBuilders.termQuery(&quot;validityDateType&quot;,1));
+validityTimeBuilder.should(QueryBuilders.rangeQuery(&quot;validityDate&quot;).gt(new Date().getTime()));
+//生成查询builder
+QueryBuilder boolBuilder = QueryBuilders.boolQuery().must(organizationBuilder).must(validityTimeBuilder);
+
+// 查询q，搜索title、内容、subtitle
+if(StringUtils.isNotBlank(form.getQ())){
+    //QueryBuilder stringBuilder = QueryBuilders.queryStringQuery(form.getQ()).field(&quot;title&quot;).field(&quot;content&quot;).field(&quot;subTitle&quot;);
+
+    MultiMatchQueryBuilder matchQuery = QueryBuilders.multiMatchQuery(form.getQ(),&quot;title&quot;,&quot;content&quot;,&quot;subTitle&quot;);
+
+    ((BoolQueryBuilder) boolBuilder).must(matchQuery);
+}
+</code></pre><p>es搜索should相当于mysql的or，must相当于mysql的and</p>
+<p>term搜索是精确查询，这里用来对权限和有效期间进行过滤，match是模糊查询，用来查询title、content、subtitle等字段</p>
+<pre><code>SearchQuery searchQuery = new NativeSearchQueryBuilder()
+                //设置查询条件
+                .withIndices(str)
+                .withQuery(boolBuilder)
+                // 高亮设置
+                .withHighlightFields(new HighlightBuilder.Field(&quot;content&quot;)
+                                .preTags(&quot;&lt;em&gt;&quot;)
+                                .postTags(&quot;&lt;/em&gt;&quot;),
+                        new HighlightBuilder.Field(&quot;title&quot;)
+                                .preTags(&quot;&lt;em&gt;&quot;)
+                                .postTags(&quot;&lt;/em&gt;&quot;),
+                        new HighlightBuilder.Field(&quot;subTitle&quot;)
+                                .preTags(&quot;&lt;em&gt;&quot;)
+                                .postTags(&quot;&lt;/em&gt;&quot;)
+                )
+                //设置分页信息
+                .withPageable(pageable)
+                //创建SearchQuery对象
+                .build();
+</code></pre><p>构建searchquery，对需要的高亮字段进行处理。</p>
+<p><strong><font size="3">创建mapping</font></strong></p>
+<p>这里以article索引为例：</p>
+<pre><code>curl -XDELETE &quot;http://localhost:9200/article&quot;
+
+curl -XPUT &quot;http://localhost:9200/article/&quot;
+
+curl -XPOST &apos;localhost:9200/article/_close&apos;
+
+curl -XPUT &quot;http://localhost:9200/article/_settings&quot; -H &apos;Content-Type: application/json&apos; -d&apos;
+{
+  &quot;index&quot;: {
+    &quot;analysis&quot;: {
+      &quot;analyzer&quot;: {
+        &quot;ik-html&quot;: {
+          &quot;char_filter&quot;: [ &quot;html_strip&quot; ],
+          &quot;tokenizer&quot;: &quot;ik_max_word&quot;
+        }
+      }
+    }
+  }
+}&apos;
+
+curl -XPOST &apos;localhost:9200/article/_open&apos;
+
+curl -XPOST &quot;http://localhost:9200/article/_mapping&quot; -H &apos;Content-Type: application/json&apos; -d&apos;
+{
+    &quot;properties&quot; : {
+          &quot;content&quot; : {
+            &quot;type&quot; : &quot;text&quot;,
+            &quot;analyzer&quot;: &quot;ik-html&quot;,
+            &quot;fields&quot; : {
+              &quot;keyword&quot; : {
+                &quot;type&quot; : &quot;keyword&quot;,
+                &quot;ignore_above&quot; : 256
+              }
+            }
+          },
+          &quot;createTime&quot; : {
+            &quot;type&quot; : &quot;date&quot;
+          },
+     &quot;validityDate&quot; : {
+            &quot;type&quot; : &quot;date&quot;
+          },
+          &quot;creatorName&quot; : {
+            &quot;type&quot; : &quot;text&quot;,
+            &quot;fields&quot; : {
+              &quot;keyword&quot; : {
+                &quot;type&quot; : &quot;keyword&quot;,
+                &quot;ignore_above&quot; : 256
+              }
+            }
+          },
+          &quot;guid&quot; : {
+            &quot;type&quot; : &quot;text&quot;,
+            &quot;fields&quot; : {
+              &quot;keyword&quot; : {
+                &quot;type&quot; : &quot;keyword&quot;,
+                &quot;ignore_above&quot; : 256
+              }
+            }
+          },
+          &quot;hasOpen&quot; : {
+            &quot;type&quot; : &quot;long&quot;
+          },
+          &quot;id&quot; : {
+            &quot;type&quot; : &quot;long&quot;
+          },
+          &quot;subTitle&quot; : {
+            &quot;type&quot; : &quot;text&quot;,
+            &quot;analyzer&quot;: &quot;ik_max_word&quot;,
+            &quot;fields&quot; : {
+              &quot;keyword&quot; : {
+                &quot;type&quot; : &quot;keyword&quot;,
+                &quot;ignore_above&quot; : 256
+              }
+            }
+          },
+          &quot;title&quot; : {
+            &quot;type&quot; : &quot;text&quot;,
+            &quot;analyzer&quot;: &quot;ik_max_word&quot;,
+            &quot;fields&quot; : {
+              &quot;keyword&quot; : {
+                &quot;type&quot; : &quot;keyword&quot;,
+                &quot;ignore_above&quot; : 256
+              }
+            }
+          },
+          &quot;validityDateType&quot; : {
+            &quot;type&quot; : &quot;long&quot;
+          }
+        }
+}&apos;
+</code></pre><p><strong><font size="5">logstash-input-jdbc重要片段</font></strong></p>
+<p>在mysql.conf的input jdbc中需要加上这段话，否者默认会有小写转化</p>
+<pre><code>lowercase_column_names =&gt; false
+</code></pre><p>logstash配置的mysql.conf 文件，organizationIds需要把“11,22”的字符串转化成[11,22]的整形数组；</p>
+<p>letterType存放json格式的文件，这里需要转化下，把1转成{“letterType”：1}的形式</p>
+<pre><code>filter {
+    json {
+        source =&gt; &quot;message&quot;
+        remove_field =&gt; [&quot;message&quot;]
+    }
+    if[type] == &quot;document&quot;{
+      mutate {
+        split =&gt; [&quot;organizationIds&quot;,&quot;,&quot;]  #organizationIds把“11,22”的字符串转化成[“11”,“22”]的字符串数组
+      }
+      mutate {
+        convert =&gt; {&quot;organizationIds&quot; =&gt; &quot;integer&quot;}  #这里直接通过convert可以将字符串数组[“11”,“22”]转成整形数组[11,22]
+      }
+    }
+    if[type] == &quot;letter&quot;{
+      mutate {
+        update =&gt; { &quot;letterType&quot; =&gt; &quot;{\&quot;letterType\&quot;:%{letterType}}&quot;}
+        split =&gt; [&quot;userIds&quot;,&quot;,&quot;]
+      }
+      mutate {
+        convert =&gt; {&quot;userIds&quot; =&gt; &quot;integer&quot;}
+      }
+    }
+    。。。。。省略
+}
+</code></pre><p>mysql同步文件,最后一句通过和sql_last_value的比较进行增量查询，如果去掉的话，就是全量查询</p>
+<pre><code>SELECT
+        oa_documents.document_id as id,
+        document_guid as guid,
+        document_name as title,
+        oa_documents.create_time as createTime,
+        expire_infinity as validityDateType,
+        expire_time as validityDate,
+                IF(b.organizationIds = 0, 1, 0) as hasOpen,
+                b.organizationIds
+FROM
+        oa_documents,
+        (
+SELECT
+        oa_documents.document_id,
+        group_concat(oa_document_organization_rss.organization_id) organizationIds
+FROM
+        oa_documents
+        LEFT JOIN oa_document_organization_rss ON oa_documents.document_id = oa_document_organization_rss.document_id
+GROUP BY
+        oa_documents.document_id
+        ) b
+WHERE
+        oa_documents.document_id IN ( b.document_id ) and oa_documents.has_directory=2 and
+        oa_articles.create_time &gt;= :sql_last_value
+</code></pre><p><strong><font size="5">后续</font></strong></p>
+<p>通过项目es的基本使用掌握差不多了，后续通过项目进展有2点改进方向：</p>
+<ol>
+<li>搜索结果的优化：搜索结果的优化方式很多，可以通过调整分片、调整field得分比重等多个方面根据业务进行优化</li>
+<li>联想搜索：对用户输入进行联想搜索，提高用户体验</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/elasticsearch/" rel="tag"># elasticsearch</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/15/keycloak介绍和sso对接/" rel="next" title="keycloak介绍和sso对接">
+                <i class="fa fa-chevron-left"></i> keycloak介绍和sso对接
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/14/elk日志系统搭建/" rel="prev" title="elk日志系统搭建">
+                elk日志系统搭建 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="amhere" />
+          <p class="site-author-name" itemprop="name">amhere</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">amhere</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://amhere.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2019/09/04/elasticsearch作为平台搜索在项目中的使用/';
+          this.page.identifier = '2019/09/04/elasticsearch作为平台搜索在项目中的使用/';
+          this.page.title = 'elasticsearch作为平台搜索在项目中的使用';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://amhere.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
